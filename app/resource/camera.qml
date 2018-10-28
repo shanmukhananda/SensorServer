@@ -9,7 +9,6 @@ Item {
     Camera {
         id: camera
         objectName: "camera"
-        viewfinder.resolution: "640x480"
     }
 
     VideoOutput {

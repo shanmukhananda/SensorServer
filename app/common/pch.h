@@ -9,6 +9,7 @@
 #include <QMainWindow>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
+#include <QQuickItem>
 #include <QQuickWidget>
 #include <QString>
 #include <QVideoFilterRunnable>

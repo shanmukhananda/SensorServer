@@ -2,21 +2,16 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>368</width>
-    <height>720</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>SensorServer</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <layout class="QVBoxLayout" name="verticalLayout_main">
     <item>
      <widget class="QQuickWidget" name="quickWidget_camera">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -162,9 +157,6 @@
        <widget class="QLineEdit" name="lineEdit_message_count">
         <property name="text">
          <string>0</string>
-        </property>
-        <property name="maxLength">
-         <number>999999999</number>
         </property>
         <property name="readOnly">
          <bool>true</bool>
