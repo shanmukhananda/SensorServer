@@ -1,40 +1,19 @@
 #include "common/pch.h"
 
-#include "view/mainwindow.h"
-
-class VideoFilterRunnable : public QVideoFilterRunnable {
-public:
-    QVideoFrame
-    run(QVideoFrame*, const QVideoSurfaceFormat&, RunFlags) override;
-};
-
-class VideoFilter : public QAbstractVideoFilter {
-public:
-    QVideoFilterRunnable* createFilterRunnable();
-signals:
-    void finished(QObject*);
-};
-
-QVideoFrame
-VideoFilterRunnable::run(QVideoFrame* frame, const QVideoSurfaceFormat&,
-                         QVideoFilterRunnable::RunFlags) {
-    static std::size_t count = 0;
-    qDebug()
-        << "Received frame:" << ++count
-        << "pixelformat=" << frame->pixelFormat() << "size=" << frame->size();
-    return *frame;
-}
-
-QVideoFilterRunnable* VideoFilter::createFilterRunnable() {
-    return new VideoFilterRunnable();
-}
+#include "model/model.h"
+#include "presenter/presenter.h"
+#include "view/view.h"
 
 void run(int argc, char** argv) {
     qmlRegisterType<VideoFilter>("SensorServer", 1, 0, "VideoFilter");
 
     auto app = std::make_unique<QApplication>(argc, argv);
-    auto window = std::make_unique<MainWindow>();
-    window->show();
+
+    auto model = std::make_unique<Model>();
+    auto view = std::make_unique<View>();
+    auto presenter = std::make_unique<Presenter>(model, view);
+    presenter->start();
+
     app->exec();
 }
 

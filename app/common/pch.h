@@ -8,8 +8,8 @@
 #include <QImageEncoderSettings>
 #include <QMainWindow>
 #include <QQmlApplicationEngine>
-#include <QQuickView>
 #include <QQuickItem>
+#include <QQuickView>
 #include <QQuickWidget>
 #include <QString>
 #include <QVideoFilterRunnable>
