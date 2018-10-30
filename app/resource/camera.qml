@@ -19,9 +19,4 @@ Item {
         filters: [ video_filter ]
         autoOrientation: true
     }
-
-    VideoFilter {
-        id: video_filter
-        objectName: "video_filter"
-    }
 }

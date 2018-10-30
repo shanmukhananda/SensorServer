@@ -11,7 +11,8 @@ void run(int argc, char** argv) {
 
     auto model = std::make_unique<Model>();
     auto view = std::make_unique<View>();
-    auto presenter = std::make_unique<Presenter>(model, view);
+    auto presenter =
+        std::make_unique<Presenter>(std::move(model), std::move(view));
     presenter->start();
 
     app->exec();
