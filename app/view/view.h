@@ -7,6 +7,7 @@ class View;
 }
 
 class Presenter;
+class Settings;
 
 class View : public QMainWindow {
     Q_OBJECT
@@ -35,11 +36,12 @@ private slots:
     void on_checkBox_gps_stateChanged(int);
     void on_radioButton_1280_x_720_toggled(bool);
     void on_radioButton_640_x_480_toggled(bool);
-    void model_initalized(QObject*);
+    void model_initalized(QObject*, Settings*);
 
 private:
     void enable_controls(bool);
     void update_start_stop_button(QColor, QString);
+    void update_view(Settings*);
 
     Ui::View* ui;
 };

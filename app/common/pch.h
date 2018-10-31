@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QCamera>
 #include <QCameraImageCapture>
+#include <QGeoPositionInfoSource>
 #include <QGuiApplication>
 #include <QImageEncoderSettings>
 #include <QMainWindow>
@@ -12,6 +13,7 @@
 #include <QQuickView>
 #include <QQuickWidget>
 #include <QString>
+#include <QTimer>
 #include <QVideoFilterRunnable>
 #include <QtDebug>
 #include <QtQml>

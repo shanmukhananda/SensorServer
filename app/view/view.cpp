@@ -1,5 +1,6 @@
 #include "common/pch.h"
 
+#include "common/settings.h"
 #include "presenter/presenter.h"
 #include "ui_view.h"
 #include "view/view.h"
@@ -37,13 +38,38 @@ void View::update_start_stop_button(QColor color, QString text) {
     ui->pushButton_start_stop->setText(text);
 }
 
+void View::update_view(Settings* settings_) {
+    if (settings_->is_camera_enabled())
+        ui->checkBox_camera->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_camera->setCheckState(Qt::Unchecked);
+
+    if (settings_->is_acceleromter_enabled())
+        ui->checkBox_accelerometer->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_accelerometer->setCheckState(Qt::Unchecked);
+
+    if (settings_->is_gyroscope_enabled())
+        ui->checkBox_gyroscope->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_gyroscope->setCheckState(Qt::Unchecked);
+
+    if (settings_->is_gps_enabled())
+        ui->checkBox_gps->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_gps->setCheckState(Qt::Unchecked);
+
+    ui->lineEdit_ip->setText(settings_->ip());
+    ui->lineEdit_port->setText(settings_->port());
+}
+
 void View::on_pushButton_start_stop_toggled(bool is_checked_) {
     if (is_checked_) {
         enable_controls(false);
         update_start_stop_button(QColor(Qt::red), "Stop");
         emit started(ui->lineEdit_ip->text(), ui->lineEdit_port->text());
     } else {
-        update_start_stop_button(QColor(Qt::red), "Start");
+        update_start_stop_button(QColor(Qt::green), "Start");
         emit stopped();
         enable_controls(true);
     }
@@ -99,15 +125,19 @@ void View::on_radioButton_640_x_480_toggled(bool is_checked_) {
         emit resolution_vga();
 }
 
-void View::model_initalized(QObject* filter) {
+void View::model_initalized(QObject* filter_, Settings* settings_) {
+    update_view(settings_);
+
     auto root_context = ui->quickWidget_camera->rootContext();
-    root_context->setContextProperty("video_filter", filter);
+    root_context->setContextProperty("video_filter", filter_);
 
     auto url = QUrl(QLatin1String("qrc:/camera.qml"));
     ui->quickWidget_camera->setSource(url);
+
     auto root_object = ui->quickWidget_camera->rootObject();
     auto qml_camera = root_object->findChild<QObject*>("camera");
     auto camera = qvariant_cast<QCamera*>(qml_camera->property("mediaObject"));
     camera->stop();
+
     emit view_initialized(camera);
 }

@@ -20,15 +20,19 @@ CONFIG += \
 
 SOURCES += \
     common/pch.cpp \
+    common/settings.cpp \
     main.cpp \
     model/model.cpp \
+    model/receiver.cpp \
     model/videofilter.cpp \
     presenter/presenter.cpp \
     view/view.cpp
 
 HEADERS += \
     common/pch.h \
+    common/settings.h \
     model/model.h \
+    model/receiver.h \
     model/videofilter.h \
     presenter/presenter.h \
     view/view.h
