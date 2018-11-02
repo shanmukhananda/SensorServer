@@ -4,20 +4,25 @@
 #include "presenter/presenter.h"
 #include "view/view.h"
 
-Presenter::Presenter(std::unique_ptr<Model> model_, std::unique_ptr<View> view_)
-    : _model(std::move(model_)), _view(std::move(view_)) {
+Presenter::Presenter(std::unique_ptr<Model> model_,
+                     std::unique_ptr<View> view_) {
+    _model = std::move(model_);
+    _view = std::move(view_);
     auto connected = false;
 
     // View to Model
     connected = connect(_view.get(), SIGNAL(view_initialized(QCamera*)),
                         _model.get(), SLOT(view_initialized(QCamera*)));
     Q_ASSERT(connected);
-    connected = connect(_view.get(), SIGNAL(started(QString, QString)),
-                        _model.get(), SLOT(started(QString, QString)));
+    connected =
+        connect(_view.get(),
+                SIGNAL(start_sensor_server(const QString&, const QString&)),
+                _model.get(),
+                SLOT(started_sensor_server(const QString&, const QString&)));
     Q_ASSERT(connected);
 
-    connected =
-        connect(_view.get(), SIGNAL(stopped()), _model.get(), SLOT(stopped()));
+    connected = connect(_view.get(), SIGNAL(stop_sensor_server()), _model.get(),
+                        SLOT(stopped_sensor_server()));
     Q_ASSERT(connected);
     connected = connect(_view.get(), SIGNAL(resolution_vga()), _model.get(),
                         SLOT(resolution_vga()));
@@ -40,8 +45,8 @@ Presenter::Presenter(std::unique_ptr<Model> model_, std::unique_ptr<View> view_)
 
     // Model to View
     connected =
-        connect(_model.get(), SIGNAL(model_initalized(QObject*, Settings*)),
-                _view.get(), SLOT(model_initalized(QObject*, Settings*)));
+        connect(_model.get(), SIGNAL(model_initialized(QObject*, Settings*)),
+                _view.get(), SLOT(model_initialized(QObject*, Settings*)));
     Q_ASSERT(connected);
 
     Q_UNUSED(connected);
@@ -50,7 +55,6 @@ Presenter::Presenter(std::unique_ptr<Model> model_, std::unique_ptr<View> view_)
 Presenter::~Presenter() {
 }
 
-void Presenter::start() {
-    _model->start();
-    _view->start();
+void Presenter::run() {
+    _model->run();
 }

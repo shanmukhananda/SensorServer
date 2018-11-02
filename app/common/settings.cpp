@@ -72,7 +72,7 @@ bool Settings::is_gps_enabled() const {
 }
 
 int Settings::imu_frequency() const {
-    return 10;
+    return 100;
 }
 
 qreal Settings::camera_frequency() const {

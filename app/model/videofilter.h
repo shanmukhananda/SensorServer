@@ -6,7 +6,7 @@ class VideoFilter;
 
 class VideoFilterRunnable : public QVideoFilterRunnable {
 public:
-    VideoFilterRunnable(VideoFilter*);
+    explicit VideoFilterRunnable(VideoFilter*);
     QVideoFrame
     run(QVideoFrame*, const QVideoSurfaceFormat&, RunFlags) override;
 

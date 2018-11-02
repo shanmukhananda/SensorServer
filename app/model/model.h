@@ -2,10 +2,10 @@
 
 #include "common/pch.h"
 
-#include "model/videofilter.h"
-
 class Receiver;
 class Settings;
+class Transmitter;
+class VideoFilter;
 
 class Model : public QObject {
     Q_OBJECT
@@ -13,15 +13,21 @@ class Model : public QObject {
 public:
     Model();
     ~Model() override;
-    void start();
+    void run();
 
 signals:
-    void model_initalized(QObject*, Settings*);
+    void model_initialized(QObject*, Settings*);
+    void update_camera(QCamera*);
+    void start_reception(const std::unique_ptr<Settings>&);
+    void stop_reception();
+    void start_transmission(const std::unique_ptr<Settings>&);
+    void stop_transmission();
 
 private slots:
     void view_initialized(QCamera*);
-    void started(QString, QString);
-    void stopped();
+    void receiver_initialized(VideoFilter*);
+    void started_sensor_server(const QString&, const QString&);
+    void stopped_sensor_server();
     void resolution_vga();
     void resolution_hd();
     void accelerometer_toggled(bool);
@@ -30,6 +36,9 @@ private slots:
     void camera_toggled(bool);
 
 private:
+    void init();
+
     std::unique_ptr<Receiver> _receiver;
     std::unique_ptr<Settings> _settings;
+    std::unique_ptr<Transmitter> _transmitter;
 };

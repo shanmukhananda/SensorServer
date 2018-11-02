@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>View</class>
  <widget class="QMainWindow" name="View">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>319</width>
+    <height>720</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>SensorServer</string>
   </property>
@@ -42,7 +50,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_port"/>
+         <widget class="QLineEdit" name="lineEdit_ip"/>
         </item>
        </layout>
       </item>
@@ -63,7 +71,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_ip">
+         <widget class="QLineEdit" name="lineEdit_port">
           <property name="text">
            <string/>
           </property>

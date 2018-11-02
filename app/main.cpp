@@ -1,6 +1,7 @@
 #include "common/pch.h"
 
 #include "model/model.h"
+#include "model/videofilter.h"
 #include "presenter/presenter.h"
 #include "view/view.h"
 
@@ -13,7 +14,7 @@ void run(int argc, char** argv) {
     auto view = std::make_unique<View>();
     auto presenter =
         std::make_unique<Presenter>(std::move(model), std::move(view));
-    presenter->start();
+    presenter->run();
 
     app->exec();
 }

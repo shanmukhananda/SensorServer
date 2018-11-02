@@ -18,6 +18,12 @@ CONFIG += \
     c++14 \
     mobility
 
+CONFIG += common/pch.h
+PRECOMPILED_HEADER = common/pch.h
+win32-msvc* {
+    PRECOMPILED_SOURCE = common/pch.cpp
+}
+
 SOURCES += \
     common/pch.cpp \
     common/settings.cpp \
@@ -26,7 +32,9 @@ SOURCES += \
     model/receiver.cpp \
     model/videofilter.cpp \
     presenter/presenter.cpp \
-    view/view.cpp
+    view/view.cpp \
+    model/sensordata.cpp \
+    model/transmitter.cpp
 
 HEADERS += \
     common/pch.h \
@@ -35,7 +43,9 @@ HEADERS += \
     model/receiver.h \
     model/videofilter.h \
     presenter/presenter.h \
-    view/view.h
+    view/view.h \
+    model/sensordata.h \
+    model/transmitter.h
 
 FORMS += \
     view/view.ui

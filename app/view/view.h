@@ -19,8 +19,8 @@ public:
 
 signals:
     void view_initialized(QCamera*);
-    void started(QString, QString);
-    void stopped();
+    void start_sensor_server(const QString&, const QString&);
+    void stop_sensor_server();
     void resolution_vga();
     void resolution_hd();
     void accelerometer_toggled(bool);
@@ -36,12 +36,13 @@ private slots:
     void on_checkBox_gps_stateChanged(int);
     void on_radioButton_1280_x_720_toggled(bool);
     void on_radioButton_640_x_480_toggled(bool);
-    void model_initalized(QObject*, Settings*);
+    void model_initialized(QObject*, Settings*);
 
 private:
+    void init();
     void enable_controls(bool);
     void update_start_stop_button(QColor, QString);
     void update_view(Settings*);
 
-    Ui::View* ui;
+    std::unique_ptr<Ui::View> _ui;
 };

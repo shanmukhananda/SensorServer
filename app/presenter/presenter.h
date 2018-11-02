@@ -11,7 +11,7 @@ class Presenter : public QObject {
 public:
     Presenter(std::unique_ptr<Model>, std::unique_ptr<View>);
     ~Presenter() override;
-    void start();
+    void run();
 
 private:
     std::unique_ptr<Model> _model;

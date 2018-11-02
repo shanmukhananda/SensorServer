@@ -21,11 +21,5 @@ QVideoFilterRunnable* VideoFilter::createFilterRunnable() {
 }
 
 void VideoFilter::on_videoframe(QVideoFrame* frame_) {
-    static std::size_t count = 0;
-    qDebug()
-        << "Timestamp:"
-        << static_cast<quint64>(QDateTime::currentMSecsSinceEpoch())
-        << "Received frame:" << ++count
-        << "pixelformat=" << frame_->pixelFormat() << "size=" << frame_->size();
     emit received_videoframe(frame_);
 }
