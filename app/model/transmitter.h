@@ -16,16 +16,15 @@ signals:
     void status(const QString&);
 
 private slots:
-    void start_transmission(const std::unique_ptr<Settings>&);
+    void start_transmission(Settings*);
     void stop_transmission();
     void received_sensordata(std::shared_ptr<SensorData>);
     void new_connection();
     void client_disconnected();
 
 private:
-    std::pair<QHostAddress, quint16>
-    get_ip_and_port(const std::unique_ptr<Settings>&);
-    void create_server(const std::unique_ptr<Settings>&);
+    std::pair<QHostAddress, quint16> get_ip_and_port(Settings*);
+    void create_server(Settings*);
     void close_server();
     void socket_create();
     bool socket_write(const std::shared_ptr<SensorData>&);

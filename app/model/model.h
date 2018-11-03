@@ -18,9 +18,9 @@ public:
 signals:
     void model_initialized(QObject*, Settings*);
     void update_camera(QCamera*);
-    void start_reception(const std::unique_ptr<Settings>&);
+    void start_reception(Settings*);
     void stop_reception();
-    void start_transmission(const std::unique_ptr<Settings>&);
+    void start_transmission(Settings*);
     void stop_transmission();
     void status(const QString&);
 
@@ -42,4 +42,6 @@ private:
     std::unique_ptr<Receiver> _receiver;
     std::unique_ptr<Settings> _settings;
     std::unique_ptr<Transmitter> _transmitter;
+    std::unique_ptr<QThread> _receiver_thread;
+    std::unique_ptr<QThread> _transmitter_thread;
 };

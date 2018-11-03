@@ -1,13 +1,49 @@
 #include "common/pch.h"
 
 #include "model/model.h"
+#include "model/sensordata.h"
 #include "model/videofilter.h"
 #include "presenter/presenter.h"
 #include "view/view.h"
 
+void keep_screen_on() {
+    LOG_SCOPE;
+#ifdef Q_OS_ANDROID
+    auto on = true;
+    QtAndroid::runOnAndroidThread([on] {
+        auto activity = QtAndroid::androidActivity();
+        if (!activity.isValid())
+            return;
+
+        auto window = activity.callObjectMethod("getWindow",
+                                                "()Landroid/"
+                                                "view/"
+                                                "Window;");
+
+        if (!window.isValid())
+            return;
+
+        const auto FLAG_KEEP_SCREEN_ON = 128;
+        if (on)
+            window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+        else
+            window.callMethod<void>("clearFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+
+        QAndroidJniEnvironment env;
+        if (env->ExceptionCheck())
+            env->ExceptionClear();
+    });
+#endif
+}
+
 void run(int argc, char** argv) {
     LOG_SCOPE;
+    qSetMessagePattern("[%{threadid}][%{function}][%{line}]: %{message}");
     qmlRegisterType<VideoFilter>("SensorServer", 1, 0, "VideoFilter");
+    qRegisterMetaType<std::shared_ptr<SensorData>>(
+        "std::shared_ptr<SensorData>");
+
+    keep_screen_on();
 
     auto app = std::make_unique<QApplication>(argc, argv);
 
@@ -23,7 +59,6 @@ void run(int argc, char** argv) {
 int main(int argc, char** argv) {
     LOG_SCOPE;
     try {
-        qSetMessagePattern("[%{threadid}][%{function}][%{line}]: %{message}");
         run(argc, argv);
     } catch (std::exception& e) {
         std::cout << std::endl << "caught exception" << std::endl;

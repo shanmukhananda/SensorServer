@@ -18,10 +18,16 @@
 #include <QQuickView>
 #include <QQuickWidget>
 #include <QString>
+#include <QThread>
 #include <QTimer>
 #include <QVideoFilterRunnable>
 #include <QtDebug>
 #include <QtQml>
+#ifdef Q_OS_ANDROID
+#include <QAndroidJniEnvironment>
+#include <QAndroidJniObject>
+#include <QtAndroid>
+#endif
 
 #include <atomic>
 #include <condition_variable>

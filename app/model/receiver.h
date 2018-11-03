@@ -20,14 +20,18 @@ signals:
 
 private slots:
     void update_camera(QCamera*);
-    void start_reception(const std::unique_ptr<Settings>&);
+    void start_reception(Settings*);
     void stop_reception();
-    void received_videoframe(QVideoFrame*);
     void timeout();
     void position_updated(const QGeoPositionInfo&);
 
 private:
     void init();
+    void start_camera(Settings*);
+    void start_geosource(Settings*);
+    void start_imu(Settings*);
+    void send_accelerometer_reading();
+    void send_gyroscope_reading();
 
     std::unique_ptr<VideoFilter> _video_filter;
     std::unique_ptr<QTimer> _timer;

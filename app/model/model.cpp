@@ -16,6 +16,8 @@ void Model::init() {
     _receiver = std::make_unique<Receiver>();
     _settings = std::make_unique<Settings>();
     _transmitter = std::make_unique<Transmitter>();
+    _receiver_thread = std::make_unique<QThread>();
+    _transmitter_thread = std::make_unique<QThread>();
 
     auto connected = false;
     connected =
@@ -30,10 +32,8 @@ void Model::init() {
                 this, SLOT(receiver_initialized(VideoFilter*)));
     Q_ASSERT(connected);
 
-    connected =
-        connect(this, SIGNAL(start_reception(std::unique_ptr<Settings>)),
-                _receiver.get(),
-                SLOT(start_reception(std::unique_ptr<Settings>)));
+    connected = connect(this, SIGNAL(start_reception(Settings*)),
+                        _receiver.get(), SLOT(start_reception(Settings*)));
     Q_ASSERT(connected);
 
     connected = connect(this, SIGNAL(stop_reception()), _receiver.get(),
@@ -41,9 +41,8 @@ void Model::init() {
     Q_ASSERT(connected);
 
     connected =
-        connect(this, SIGNAL(start_transmission(std::unique_ptr<Settings>)),
-                _transmitter.get(),
-                SLOT(start_transmission(std::unique_ptr<Settings>)));
+        connect(this, SIGNAL(start_transmission(Settings*)), _transmitter.get(),
+                SLOT(start_transmission(Settings*)));
     Q_ASSERT(connected);
 
     connected = connect(this, SIGNAL(stop_transmission()), _transmitter.get(),
@@ -57,10 +56,21 @@ void Model::init() {
                         SIGNAL(status(QString)));
     Q_ASSERT(connected);
     Q_UNUSED(connected);
+
+    _receiver->moveToThread(_receiver_thread.get());
+    _transmitter->moveToThread(_transmitter_thread.get());
+    _receiver_thread->start();
+    _transmitter_thread->start();
 }
 
 Model::~Model() {
     LOG_SCOPE;
+
+    _receiver_thread->quit();
+    _receiver_thread->wait();
+
+    _transmitter_thread->quit();
+    _transmitter_thread->wait();
 }
 
 void Model::run() {
@@ -83,8 +93,8 @@ void Model::started_sensor_server(const QString& ip_, const QString& port_) {
     _settings->ip(ip_);
     _settings->port(port_);
 
-    emit start_reception(_settings);
-    emit start_transmission(_settings);
+    emit start_reception(_settings.get());
+    emit start_transmission(_settings.get());
 }
 
 void Model::stopped_sensor_server() {

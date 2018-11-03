@@ -6,8 +6,8 @@ s.connect(("192.168.1.7", 9000))
 
 while True:
     data = s.recv(1024)
+    if not data:
+        break
     print('Received', repr(data))
 
 s.close()
-
-

@@ -12,7 +12,7 @@ Transmitter::~Transmitter() {
     LOG_SCOPE;
 }
 
-void Transmitter::create_server(const std::unique_ptr<Settings>& settings_) {
+void Transmitter::create_server(Settings* settings_) {
     LOG_SCOPE;
     _tcp_server = new QTcpServer(this);
 
@@ -89,7 +89,7 @@ void Transmitter::client_disconnected() {
 }
 
 std::pair<QHostAddress, quint16>
-Transmitter::get_ip_and_port(const std::unique_ptr<Settings>& settings_) {
+Transmitter::get_ip_and_port(Settings* settings_) {
     QHostAddress ip_add;
     if (!ip_add.setAddress(settings_->ip()))
         throw std::runtime_error("invalid ip address");
@@ -104,8 +104,7 @@ Transmitter::get_ip_and_port(const std::unique_ptr<Settings>& settings_) {
     return std::make_pair(ip_add, port);
 }
 
-void Transmitter::start_transmission(
-    const std::unique_ptr<Settings>& settings_) {
+void Transmitter::start_transmission(Settings* settings_) {
     LOG_SCOPE;
 
     QString current_status;

@@ -10,6 +10,8 @@ QT += \
     sensors \
     widgets
 
+android: QT += androidextras
+
 TARGET = SensorServer
 TEMPLATE = app
 
@@ -58,3 +60,7 @@ RESOURCES += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+for(var, $$list($$enumerate_vars())) {
+    message($$var = $$eval($$var))
+}
