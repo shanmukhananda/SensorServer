@@ -30,26 +30,27 @@ SOURCES += \
     main.cpp \
     model/model.cpp \
     model/receiver.cpp \
+    model/sensordata.cpp \
+    model/transmitter.cpp \
     model/videofilter.cpp \
     presenter/presenter.cpp \
-    view/view.cpp \
-    model/sensordata.cpp \
-    model/transmitter.cpp
+    view/view.cpp
 
 HEADERS += \
+    common/log.h \
     common/pch.h \
     common/settings.h \
     model/model.h \
     model/receiver.h \
+    model/sensordata.h \
+    model/transmitter.h \
     model/videofilter.h \
     presenter/presenter.h \
-    view/view.h \
-    model/sensordata.h \
-    model/transmitter.h
+    view/view.h
 
 FORMS += \
     view/view.ui
-	
+
 RESOURCES += \
     resource/qml.qrc
 

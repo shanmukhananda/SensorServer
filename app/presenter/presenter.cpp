@@ -6,8 +6,18 @@
 
 Presenter::Presenter(std::unique_ptr<Model> model_,
                      std::unique_ptr<View> view_) {
+    LOG_SCOPE;
     _model = std::move(model_);
     _view = std::move(view_);
+    init();
+}
+
+Presenter::~Presenter() {
+    LOG_SCOPE;
+}
+
+void Presenter::init() {
+    LOG_SCOPE;
     auto connected = false;
 
     // View to Model
@@ -15,10 +25,8 @@ Presenter::Presenter(std::unique_ptr<Model> model_,
                         _model.get(), SLOT(view_initialized(QCamera*)));
     Q_ASSERT(connected);
     connected =
-        connect(_view.get(),
-                SIGNAL(start_sensor_server(const QString&, const QString&)),
-                _model.get(),
-                SLOT(started_sensor_server(const QString&, const QString&)));
+        connect(_view.get(), SIGNAL(start_sensor_server(QString, QString)),
+                _model.get(), SLOT(started_sensor_server(QString, QString)));
     Q_ASSERT(connected);
 
     connected = connect(_view.get(), SIGNAL(stop_sensor_server()), _model.get(),
@@ -49,12 +57,25 @@ Presenter::Presenter(std::unique_ptr<Model> model_,
                 _view.get(), SLOT(model_initialized(QObject*, Settings*)));
     Q_ASSERT(connected);
 
+    // Model to Presenter
+    connected = connect(_model.get(), SIGNAL(status(QString)), this,
+                        SLOT(status(QString)));
+    Q_ASSERT(connected);
+
+    // Presenter to View
+    connected = connect(this, SIGNAL(update_status(QString)), _view.get(),
+                        SLOT(update_status(QString)));
+    Q_ASSERT(connected);
     Q_UNUSED(connected);
 }
 
-Presenter::~Presenter() {
+void Presenter::run() {
+    LOG_SCOPE;
+    _model->run();
 }
 
-void Presenter::run() {
-    _model->run();
+void Presenter::status(const QString& status_) {
+    LOG_SCOPE;
+    auto status = status_.toUpper();
+    emit update_status(status);
 }

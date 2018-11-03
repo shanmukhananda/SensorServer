@@ -6,10 +6,12 @@
 #include "model/videofilter.h"
 
 Receiver::Receiver() {
+    LOG_SCOPE;
     init();
 }
 
 void Receiver::init() {
+    LOG_SCOPE;
     _video_filter = std::make_unique<VideoFilter>();
     _timer = std::make_unique<QTimer>(this);
     _accelerometer = std::make_unique<QAccelerometer>(this);
@@ -26,25 +28,29 @@ void Receiver::init() {
     Q_ASSERT(connected);
 
     if (_geo_source)
-        connect(_geo_source, SIGNAL(positionUpdated(const QGeoPositionInfo&)),
-                this, SLOT(position_updated(const QGeoPositionInfo&)));
+        connect(_geo_source, SIGNAL(positionUpdated(QGeoPositionInfo)), this,
+                SLOT(position_updated(QGeoPositionInfo)));
 
     Q_UNUSED(connected);
 }
 
 Receiver::~Receiver() {
+    LOG_SCOPE;
 }
 
 void Receiver::run() {
+    LOG_SCOPE;
     emit receiver_initialized(_video_filter.get());
 }
 
 void Receiver::update_camera(QCamera* camera_) {
+    LOG_SCOPE;
     _camera = camera_;
     _camera->focus()->setFocusMode(QCameraFocus::FocusMode::InfinityFocus);
 }
 
 void Receiver::start_reception(const std::unique_ptr<Settings>& settings_) {
+    LOG_SCOPE;
     if (settings_->is_camera_enabled()) {
         QCameraViewfinderSettings vfsettings;
         vfsettings.setMinimumFrameRate(settings_->camera_frequency());
@@ -87,6 +93,7 @@ void Receiver::start_reception(const std::unique_ptr<Settings>& settings_) {
 }
 
 void Receiver::stop_reception() {
+    LOG_SCOPE;
     _camera->stop();
     if (_geo_source)
         _geo_source->stopUpdates();
@@ -94,7 +101,8 @@ void Receiver::stop_reception() {
 }
 
 void Receiver::received_videoframe(QVideoFrame* frame_) {
-    qDebug() << QThread::currentThreadId() << __FUNCTION__;
+    // LOG_SCOPE;
+
     auto timestamp = QDateTime::currentMSecsSinceEpoch();
     QString pix_format;
     QDebug(&pix_format) << frame_->pixelFormat();
@@ -120,6 +128,7 @@ void Receiver::received_videoframe(QVideoFrame* frame_) {
 }
 
 void Receiver::timeout() {
+    // LOG_SCOPE;
     auto accel_reading = _accelerometer->reading();
     if (accel_reading) {
         auto timestamp = QDateTime::currentMSecsSinceEpoch();
@@ -148,6 +157,7 @@ void Receiver::timeout() {
 }
 
 void Receiver::position_updated(const QGeoPositionInfo& position_) {
+    // LOG_SCOPE;
     auto timestamp = QDateTime::currentMSecsSinceEpoch();
     Q_ASSERT(timestamp > 0);
 

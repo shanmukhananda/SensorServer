@@ -6,19 +6,23 @@
 #include "view/view.h"
 
 View::View() {
+    LOG_SCOPE;
     init();
 }
 
 void View::init() {
+    LOG_SCOPE;
     _ui = std::make_unique<Ui::View>();
     _ui->setupUi(this);
     update_start_stop_button(QColor(Qt::green), "Start");
 }
 
 View::~View() {
+    LOG_SCOPE;
 }
 
 void View::enable_controls(bool is_enabled_) {
+    LOG_SCOPE;
     _ui->lineEdit_ip->setEnabled(is_enabled_);
     _ui->lineEdit_port->setEnabled(is_enabled_);
 
@@ -32,12 +36,14 @@ void View::enable_controls(bool is_enabled_) {
 }
 
 void View::update_start_stop_button(QColor color, QString text) {
+    LOG_SCOPE;
     auto qss = QString("background-color: %1").arg(color.name());
     _ui->pushButton_start_stop->setStyleSheet(qss);
     _ui->pushButton_start_stop->setText(text);
 }
 
 void View::update_view(Settings* settings_) {
+    LOG_SCOPE;
     if (settings_->is_camera_enabled())
         _ui->checkBox_camera->setCheckState(Qt::Checked);
     else
@@ -63,6 +69,7 @@ void View::update_view(Settings* settings_) {
 }
 
 void View::on_pushButton_start_stop_toggled(bool is_checked_) {
+    LOG_SCOPE;
     if (is_checked_) {
         enable_controls(false);
         update_start_stop_button(QColor(Qt::red), "Stop");
@@ -76,6 +83,7 @@ void View::on_pushButton_start_stop_toggled(bool is_checked_) {
 }
 
 void View::on_checkBox_accelerometer_stateChanged(int checkstate_) {
+    LOG_SCOPE;
     auto is_enabled = false;
     if (Qt::Checked == checkstate_)
         is_enabled = true;
@@ -86,6 +94,7 @@ void View::on_checkBox_accelerometer_stateChanged(int checkstate_) {
 }
 
 void View::on_checkBox_camera_stateChanged(int checkstate_) {
+    LOG_SCOPE;
     auto is_enabled = false;
     if (Qt::Checked == checkstate_)
         is_enabled = true;
@@ -96,6 +105,7 @@ void View::on_checkBox_camera_stateChanged(int checkstate_) {
 }
 
 void View::on_checkBox_gyroscope_stateChanged(int checkstate_) {
+    LOG_SCOPE;
     auto is_enabled = false;
     if (Qt::Checked == checkstate_)
         is_enabled = true;
@@ -106,6 +116,7 @@ void View::on_checkBox_gyroscope_stateChanged(int checkstate_) {
 }
 
 void View::on_checkBox_gps_stateChanged(int checkstate_) {
+    LOG_SCOPE;
     auto is_enabled = false;
     if (Qt::Checked == checkstate_)
         is_enabled = true;
@@ -116,16 +127,19 @@ void View::on_checkBox_gps_stateChanged(int checkstate_) {
 }
 
 void View::on_radioButton_1280_x_720_toggled(bool is_checked_) {
+    LOG_SCOPE;
     if (is_checked_)
         emit resolution_hd();
 }
 
 void View::on_radioButton_640_x_480_toggled(bool is_checked_) {
+    LOG_SCOPE;
     if (is_checked_)
         emit resolution_vga();
 }
 
 void View::model_initialized(QObject* filter_, Settings* settings_) {
+    LOG_SCOPE;
     update_view(settings_);
 
     auto root_context = _ui->quickWidget_camera->rootContext();
@@ -141,4 +155,9 @@ void View::model_initialized(QObject* filter_, Settings* settings_) {
 
     show();
     emit view_initialized(camera);
+}
+
+void View::update_status(const QString& status_) {
+    LOG_SCOPE;
+    _ui->lineEdit_message->setText(status_);
 }

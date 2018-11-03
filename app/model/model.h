@@ -22,6 +22,7 @@ signals:
     void stop_reception();
     void start_transmission(const std::unique_ptr<Settings>&);
     void stop_transmission();
+    void status(const QString&);
 
 private slots:
     void view_initialized(QCamera*);

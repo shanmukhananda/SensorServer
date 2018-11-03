@@ -18,8 +18,8 @@ class VideoFilter : public QAbstractVideoFilter {
     Q_OBJECT
 
 public:
-    virtual ~VideoFilter() = default;
-    QVideoFilterRunnable* createFilterRunnable();
+    virtual ~VideoFilter() override = default;
+    QVideoFilterRunnable* createFilterRunnable() override;
     void on_videoframe(QVideoFrame*);
 
 signals:

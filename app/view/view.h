@@ -37,6 +37,7 @@ private slots:
     void on_radioButton_1280_x_720_toggled(bool);
     void on_radioButton_640_x_480_toggled(bool);
     void model_initialized(QObject*, Settings*);
+    void update_status(const QString&);
 
 private:
     void init();

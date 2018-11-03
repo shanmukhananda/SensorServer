@@ -6,6 +6,7 @@
 #include "view/view.h"
 
 void run(int argc, char** argv) {
+    LOG_SCOPE;
     qmlRegisterType<VideoFilter>("SensorServer", 1, 0, "VideoFilter");
 
     auto app = std::make_unique<QApplication>(argc, argv);
@@ -20,7 +21,9 @@ void run(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
+    LOG_SCOPE;
     try {
+        qSetMessagePattern("[%{threadid}][%{function}][%{line}]: %{message}");
         run(argc, argv);
     } catch (std::exception& e) {
         std::cout << std::endl << "caught exception" << std::endl;

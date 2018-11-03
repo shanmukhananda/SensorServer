@@ -10,9 +10,11 @@ Settings::Settings()
     , _is_gps_enabled(false)
     , _ip()
     , _port() {
+    LOG_SCOPE;
 }
 
 Settings::~Settings() {
+    LOG_SCOPE;
 }
 
 void Settings::ip(const QString& ip_) {

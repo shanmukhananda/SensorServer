@@ -7,10 +7,12 @@
 #include "model/videofilter.h"
 
 Model::Model() {
+    LOG_SCOPE;
     init();
 }
 
 void Model::init() {
+    LOG_SCOPE;
     _receiver = std::make_unique<Receiver>();
     _settings = std::make_unique<Settings>();
     _transmitter = std::make_unique<Transmitter>();
@@ -29,9 +31,9 @@ void Model::init() {
     Q_ASSERT(connected);
 
     connected =
-        connect(this, SIGNAL(start_reception(const std::unique_ptr<Settings>&)),
+        connect(this, SIGNAL(start_reception(std::unique_ptr<Settings>)),
                 _receiver.get(),
-                SLOT(start_reception(const std::unique_ptr<Settings>&)));
+                SLOT(start_reception(std::unique_ptr<Settings>)));
     Q_ASSERT(connected);
 
     connected = connect(this, SIGNAL(stop_reception()), _receiver.get(),
@@ -39,10 +41,9 @@ void Model::init() {
     Q_ASSERT(connected);
 
     connected =
-        connect(this,
-                SIGNAL(start_transmission(const std::unique_ptr<Settings>&)),
+        connect(this, SIGNAL(start_transmission(std::unique_ptr<Settings>)),
                 _transmitter.get(),
-                SLOT(start_transmission(const std::unique_ptr<Settings>&)));
+                SLOT(start_transmission(std::unique_ptr<Settings>)));
     Q_ASSERT(connected);
 
     connected = connect(this, SIGNAL(stop_transmission()), _transmitter.get(),
@@ -51,26 +52,34 @@ void Model::init() {
 
     connected = connect(this, SIGNAL(update_camera(QCamera*)), _receiver.get(),
                         SLOT(update_camera(QCamera*)));
+
+    connected = connect(_transmitter.get(), SIGNAL(status(QString)), this,
+                        SIGNAL(status(QString)));
     Q_ASSERT(connected);
     Q_UNUSED(connected);
 }
 
 Model::~Model() {
+    LOG_SCOPE;
 }
 
 void Model::run() {
+    LOG_SCOPE;
     _receiver->run();
 }
 
 void Model::view_initialized(QCamera* camera_) {
+    LOG_SCOPE;
     emit update_camera(camera_);
 }
 
 void Model::receiver_initialized(VideoFilter* video_filter_) {
+    LOG_SCOPE;
     emit model_initialized(video_filter_, _settings.get());
 }
 
 void Model::started_sensor_server(const QString& ip_, const QString& port_) {
+    LOG_SCOPE;
     _settings->ip(ip_);
     _settings->port(port_);
 
@@ -79,30 +88,37 @@ void Model::started_sensor_server(const QString& ip_, const QString& port_) {
 }
 
 void Model::stopped_sensor_server() {
+    LOG_SCOPE;
     emit stop_reception();
     emit stop_transmission();
 }
 
 void Model::resolution_vga() {
+    LOG_SCOPE;
     _settings->image_resolution(resolution::vga);
 }
 
 void Model::resolution_hd() {
+    LOG_SCOPE;
     _settings->image_resolution(resolution::hd);
 }
 
 void Model::accelerometer_toggled(bool is_enabled_) {
+    LOG_SCOPE;
     _settings->enable_accelerometer(is_enabled_);
 }
 
 void Model::gyroscope_toggled(bool is_enabled_) {
+    LOG_SCOPE;
     _settings->enable_gyroscope(is_enabled_);
 }
 
 void Model::gps_toggled(bool is_enabled_) {
+    LOG_SCOPE;
     _settings->enable_gps(is_enabled_);
 }
 
 void Model::camera_toggled(bool is_enabled_) {
+    LOG_SCOPE;
     _settings->enable_camera(is_enabled_);
 }

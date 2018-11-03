@@ -13,7 +13,15 @@ public:
     ~Presenter() override;
     void run();
 
+signals:
+    void update_status(const QString&);
+
+private slots:
+    void status(const QString&);
+
 private:
+    void init();
+
     std::unique_ptr<Model> _model;
     std::unique_ptr<View> _view;
 };

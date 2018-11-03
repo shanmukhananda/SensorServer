@@ -21,6 +21,7 @@ public:
 class AcceleromterData : public SensorData {
 public:
     AcceleromterData();
+    ~AcceleromterData() override = default;
     double x = 0.0;
     double y = 0.0;
     double z = 0.0;
@@ -29,6 +30,7 @@ public:
 class GyroscopeData : public SensorData {
 public:
     GyroscopeData();
+    ~GyroscopeData() override = default;
     double x = 0.0;
     double y = 0.0;
     double z = 0.0;
@@ -37,6 +39,7 @@ public:
 class GeodeticData : public SensorData {
 public:
     GeodeticData();
+    ~GeodeticData() override = default;
     double latitude = 0.0;
     double longitude = 0.0;
     double altitude = 0.0;
@@ -48,6 +51,7 @@ public:
 class ImageData : public SensorData {
 public:
     ImageData();
+    ~ImageData() override = default;
     std::uint16_t width = 0;
     std::uint16_t height = 0;
     std::string pixel_format;

@@ -2,7 +2,6 @@
 #define COMMON_PCH_H
 
 #include <QAbstractVideoBuffer>
-#include <QAbstractVideoFilter>
 #include <QAccelerometer>
 #include <QApplication>
 #include <QByteArray>
@@ -13,6 +12,7 @@
 #include <QGyroscope>
 #include <QImageEncoderSettings>
 #include <QMainWindow>
+#include <QMessageLogger>
 #include <QQmlApplicationEngine>
 #include <QQuickItem>
 #include <QQuickView>
@@ -33,5 +33,7 @@
 #include <queue>
 #include <sstream>
 #include <thread>
+
+#include "common/log.h"
 
 #endif
