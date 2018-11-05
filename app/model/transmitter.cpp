@@ -60,9 +60,9 @@ bool Transmitter::socket_write(const std::shared_ptr<SensorData>& sensor_data_) 
     if (!_socket || !_socket->isValid())
         return false;
 
-    QString msg = QString::number(sensor_data_->timestamp) + " " +
-                  QString::number(static_cast<uint8_t>(sensor_data_->type));
-    _socket->write(msg.toStdString().c_str());
+    auto buffer = sensor_data_->serialize();
+    _socket->write(reinterpret_cast<const char*>(buffer.data()),
+                   static_cast<qint64>(buffer.size()));
     _socket->flush();
     _socket->waitForBytesWritten();
 
