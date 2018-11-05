@@ -1,6 +1,6 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "model/sensordata.h"
+#include "app/model/sensordata.h"
 
 AcceleromterData::AcceleromterData() {
     type = sensor_type::accelerometer;

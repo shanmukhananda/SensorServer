@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/pch.h"
+#include "app/common/pch.h"
 
 enum class sensor_type : std::uint8_t {
     none,
@@ -52,8 +52,9 @@ class ImageData : public SensorData {
 public:
     ImageData();
     ~ImageData() override = default;
-    std::uint16_t width = 0;
-    std::uint16_t height = 0;
+    std::int32_t width = 0;
+    std::int32_t height = 0;
     std::string pixel_format;
-    std::vector<uint8_t> data;
+    std::vector<std::int32_t> bytes_per_line_per_plane;
+    std::vector<std::uint8_t> bits;
 };

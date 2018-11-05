@@ -1,6 +1,6 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "common/settings.h"
+#include "app/common/settings.h"
 
 Settings::Settings()
     : _resolution(resolution::vga)

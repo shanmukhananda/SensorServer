@@ -1,10 +1,10 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "common/settings.h"
-#include "model/model.h"
-#include "model/receiver.h"
-#include "model/transmitter.h"
-#include "model/videofilter.h"
+#include "app/common/settings.h"
+#include "app/model/model.h"
+#include "app/model/receiver.h"
+#include "app/model/transmitter.h"
+#include "app/model/videofilter.h"
 
 Model::Model() {
     LOG_SCOPE;

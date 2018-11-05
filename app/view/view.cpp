@@ -1,9 +1,9 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "common/settings.h"
-#include "presenter/presenter.h"
+#include "app/common/settings.h"
+#include "app/presenter/presenter.h"
+#include "app/view/view.h"
 #include "ui_view.h"
-#include "view/view.h"
 
 View::View() {
     LOG_SCOPE;

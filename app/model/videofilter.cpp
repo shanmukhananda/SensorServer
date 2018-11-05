@@ -1,7 +1,7 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "model/sensordata.h"
-#include "model/videofilter.h"
+#include "app/model/sensordata.h"
+#include "app/model/videofilter.h"
 
 VideoFilterRunnable::VideoFilterRunnable(VideoFilter* filter_)
     : _filter(filter_) {
@@ -41,14 +41,20 @@ void VideoFilter::on_videoframe(QVideoFrame* frame_) {
 
     auto image_data = std::make_shared<ImageData>();
     image_data->timestamp = static_cast<std::uint64_t>(timestamp);
-    image_data->width = static_cast<std::uint16_t>(frame_->width());
-    image_data->height = static_cast<std::uint16_t>(frame_->height());
-    image_data->pixel_format = pix_format.toStdString();
 
     frame_->map(QAbstractVideoBuffer::ReadOnly);
-    auto size = frame_->mappedBytes();
-    auto data = frame_->bits();
-    image_data->data.assign(data, data + size);
+
+    image_data->width = frame_->width();
+    image_data->height = frame_->height();
+    image_data->pixel_format = pix_format.toStdString();
+
+    auto nplanes = frame_->planeCount();
+    for (decltype(nplanes) i = 0; i < nplanes; ++i)
+        image_data->bytes_per_line_per_plane.push_back(frame_->bytesPerLine(i));
+
+    image_data->bits.assign(frame_->bits(),
+                            frame_->bits() + frame_->mappedBytes());
+
     frame_->unmap();
 
     emit received_sensordata(image_data);

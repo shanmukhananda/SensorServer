@@ -1,8 +1,8 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "common/settings.h"
-#include "model/sensordata.h"
-#include "model/transmitter.h"
+#include "app/common/settings.h"
+#include "app/model/sensordata.h"
+#include "app/model/transmitter.h"
 
 Transmitter::Transmitter() {
     LOG_SCOPE;

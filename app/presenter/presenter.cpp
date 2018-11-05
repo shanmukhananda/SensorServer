@@ -1,8 +1,8 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "model/model.h"
-#include "presenter/presenter.h"
-#include "view/view.h"
+#include "app/model/model.h"
+#include "app/presenter/presenter.h"
+#include "app/view/view.h"
 
 Presenter::Presenter(std::unique_ptr<Model> model_,
                      std::unique_ptr<View> view_) {

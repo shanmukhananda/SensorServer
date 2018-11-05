@@ -40,6 +40,6 @@
 #include <sstream>
 #include <thread>
 
-#include "common/log.h"
+#include "app/common/log.h"
 
 #endif

@@ -1,9 +1,9 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "common/settings.h"
-#include "model/receiver.h"
-#include "model/sensordata.h"
-#include "model/videofilter.h"
+#include "app/common/settings.h"
+#include "app/model/receiver.h"
+#include "app/model/sensordata.h"
+#include "app/model/videofilter.h"
 
 Receiver::Receiver() {
     LOG_SCOPE;

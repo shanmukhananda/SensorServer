@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/pch.h"
+#include "app/common/pch.h"
 
 class SensorData;
 class Settings;

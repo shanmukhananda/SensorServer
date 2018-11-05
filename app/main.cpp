@@ -1,10 +1,10 @@
-#include "common/pch.h"
+#include "app/common/pch.h"
 
-#include "model/model.h"
-#include "model/sensordata.h"
-#include "model/videofilter.h"
-#include "presenter/presenter.h"
-#include "view/view.h"
+#include "app/model/model.h"
+#include "app/model/sensordata.h"
+#include "app/model/videofilter.h"
+#include "app/presenter/presenter.h"
+#include "app/view/view.h"
 
 void keep_screen_on() {
     LOG_SCOPE;
