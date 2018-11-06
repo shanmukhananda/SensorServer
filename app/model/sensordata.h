@@ -4,10 +4,10 @@
 
 enum class sensor_type : std::uint8_t {
     none,
-    camera,
     accelerometer,
+    camera,
+    geo,
     gyroscope,
-    geo
 };
 
 class SensorData : public QObject {

@@ -31,6 +31,7 @@
 
 #include <atomic>
 #include <condition_variable>
+#include <cstdint>
 #include <cstdlib>
 #include <exception>
 #include <iostream>

@@ -30,7 +30,8 @@ table Image {
     type:SensorType = Camera;
     width:int = 0;
     height:int = 0;
-    pixel_format:string; 
+    pixel_format:string;
+    bytes_per_line_per_plane:[int];
     bits:[ubyte];
 }
 

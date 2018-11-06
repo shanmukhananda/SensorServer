@@ -1,5 +1,11 @@
 #/bin/bash
 
+echo "-------------------------------------------------------------------------"
+echo "~ EXTERNAL DEPENDENCIES ~"
+echo "  # clang-format"
+echo "      - apt update && apt install clang-format -y"
+echo "-------------------------------------------------------------------------"
+
 script_dir=$(realpath $(dirname $0))
 project_dir=$(realpath ${script_dir}/../../..)
 

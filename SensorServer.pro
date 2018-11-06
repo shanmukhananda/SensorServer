@@ -84,7 +84,7 @@ win32 {
         }
     }
     g++ {
-        message("g++ not configured")
+        message("win32:g++ not configured")
     }
 }
 

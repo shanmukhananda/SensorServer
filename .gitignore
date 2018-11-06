@@ -3,3 +3,11 @@ build*/
 *.user
 vendor/
 *_generated.h
+/.vs
+debug/
+release/
+Generated*/
+.qmake*
+*.vcxproj*
+x64/
+x86/
