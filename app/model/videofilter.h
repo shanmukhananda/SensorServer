@@ -25,6 +25,5 @@ public:
     void on_videoframe(QVideoFrame*);
 
 signals:
-    void finished(QObject*);
-    void received_sensordata(std::shared_ptr<SensorData>);
+    void received_videoframe(std::shared_ptr<SensorData>);
 };

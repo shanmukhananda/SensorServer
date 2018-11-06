@@ -57,5 +57,5 @@ void VideoFilter::on_videoframe(QVideoFrame* frame_) {
 
     frame_->unmap();
 
-    emit received_sensordata(image_data);
+    emit received_videoframe(image_data);
 }

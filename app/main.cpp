@@ -38,7 +38,7 @@ void keep_screen_on() {
 
 void run(int argc, char** argv) {
     LOG_SCOPE;
-    qSetMessagePattern("[%{threadid}][%{function}][%{line}]: %{message}");
+    // qSetMessagePattern("[%{threadid}][%{function}][%{line}]: %{message}");
     qmlRegisterType<VideoFilter>("SensorServer", 1, 0, "VideoFilter");
     qRegisterMetaType<std::shared_ptr<SensorData>>(
         "std::shared_ptr<SensorData>");

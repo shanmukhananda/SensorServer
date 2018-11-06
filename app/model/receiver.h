@@ -24,6 +24,7 @@ private slots:
     void stop_reception();
     void timeout();
     void position_updated(const QGeoPositionInfo&);
+    void received_videoframe(std::shared_ptr<SensorData>);
 
 private:
     void init();

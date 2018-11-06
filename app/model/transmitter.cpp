@@ -38,6 +38,7 @@ void Transmitter::close_server() {
 }
 
 void Transmitter::socket_create() {
+    LOG_SCOPE;
     if (_socket && _socket->isValid()) {
         LOG_DEBUG << "server busy";
         _tcp_server->nextPendingConnection();
@@ -57,6 +58,7 @@ void Transmitter::socket_create() {
 }
 
 bool Transmitter::socket_write(const std::shared_ptr<SensorData>& sensor_data_) {
+    // LOG_SCOPE;
     if (!_socket || !_socket->isValid())
         return false;
 

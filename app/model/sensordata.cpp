@@ -2,12 +2,14 @@
 
 #include "app/messages/messages_generated.h"
 #include "app/model/sensordata.h"
+#include "app/common/log.h"
 
 AcceleromterData::AcceleromterData() {
     type = sensor_type::accelerometer;
 }
 
 std::vector<std::uint8_t> AcceleromterData::serialize() const {
+    // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     messages::AccelerationBuilder builder(fbb);
     builder.add_timestamp(timestamp);
@@ -26,6 +28,7 @@ GyroscopeData::GyroscopeData() {
 }
 
 std::vector<std::uint8_t> GyroscopeData::serialize() const {
+    // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     messages::OrientationBuilder builder(fbb);
     builder.add_timestamp(timestamp);
@@ -44,6 +47,7 @@ GeodeticData::GeodeticData() {
 }
 
 std::vector<std::uint8_t> GeodeticData::serialize() const {
+    // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     messages::GeolocationBuilder builder(fbb);
     builder.add_altitude(altitude);
@@ -65,6 +69,7 @@ ImageData::ImageData() {
 }
 
 std::vector<std::uint8_t> ImageData::serialize() const {
+    // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     auto bits_fb = fbb.CreateVector(bits);
     auto pixel_format_fb = fbb.CreateString(pixel_format);

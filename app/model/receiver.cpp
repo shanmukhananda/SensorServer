@@ -21,8 +21,8 @@ void Receiver::init() {
     auto connected = false;
     connected =
         connect(_video_filter.get(),
-                SIGNAL(received_sensordata(std::shared_ptr<SensorData>)), this,
-                SIGNAL(received_sensordata(std::shared_ptr<SensorData>)));
+                SIGNAL(received_videoframe(std::shared_ptr<SensorData>)), this,
+                SLOT(received_videoframe(std::shared_ptr<SensorData>)));
     Q_ASSERT(connected);
 
     connected = connect(_timer.get(), SIGNAL(timeout()), this, SLOT(timeout()));
@@ -170,5 +170,11 @@ void Receiver::position_updated(const QGeoPositionInfo& position_) {
 
     if (position_.hasAttribute(QGeoPositionInfo::GroundSpeed))
         geo_data->ground_speed =
-            position_.attribute(QGeoPositionInfo::GroundSpeed);
+                position_.attribute(QGeoPositionInfo::GroundSpeed);
+}
+
+void Receiver::received_videoframe(std::shared_ptr<SensorData> image_data_)
+{
+    // LOG_SCOPE;
+    emit received_sensordata(image_data_);
 }
