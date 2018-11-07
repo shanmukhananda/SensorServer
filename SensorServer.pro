@@ -25,11 +25,12 @@ SOURCES += \
     app/common/pch.cpp \
     app/common/settings.cpp \
     app/main.cpp \
+    app/model/camerareceiver.cpp \
+    app/model/georeceiver.cpp \
+    app/model/imureceiver.cpp \
     app/model/model.cpp \
-    app/model/receiver.cpp \
     app/model/sensordata.cpp \
     app/model/transmitter.cpp \
-    app/model/videofilter.cpp \
     app/presenter/presenter.cpp \
     app/view/view.cpp
 
@@ -37,11 +38,12 @@ HEADERS += \
     app/common/log.h \
     app/common/pch.h \
     app/common/settings.h \
+    app/model/camerareceiver.h \
+    app/model/georeceiver.h \
+    app/model/imureceiver.h \
     app/model/model.h \
-    app/model/receiver.h \
     app/model/sensordata.h \
     app/model/transmitter.h \
-    app/model/videofilter.h \
     app/presenter/presenter.h \
     app/view/view.h
 

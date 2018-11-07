@@ -21,6 +21,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QVideoFilterRunnable>
+#include <QVideoProbe>
 #include <QtDebug>
 #include <QtQml>
 #ifdef Q_OS_ANDROID

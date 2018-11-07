@@ -138,12 +138,9 @@ void View::on_radioButton_640_x_480_toggled(bool is_checked_) {
         emit resolution_vga();
 }
 
-void View::model_initialized(QObject* filter_, Settings* settings_) {
+void View::model_initialized(Settings* settings_) {
     LOG_SCOPE;
     update_view(settings_);
-
-    auto root_context = _ui->quickWidget_camera->rootContext();
-    root_context->setContextProperty("video_filter", filter_);
 
     auto url = QUrl(QLatin1String("qrc:/camera.qml"));
     _ui->quickWidget_camera->setSource(url);

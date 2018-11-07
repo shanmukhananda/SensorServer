@@ -24,15 +24,12 @@ public:
     void init();
 
 private slots:
-    void imageCaptured(int id, QImage img);
-
-    void readyForCaptureChanged(bool state);
-    void videoFrameProbed(QVideoFrame);
+    void videoFrameProbed(const QVideoFrame&);
 
 private:
     Ui::MainWindow* ui;
     QCamera* camera{nullptr};
-    QCameraImageCapture* cap{nullptr};
+    QVideoProbe* videoProbe{nullptr};
 };
 
 #endif // MAINWINDOW_H

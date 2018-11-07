@@ -11,58 +11,31 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::imageCaptured(int id, QImage img) {
+void MainWindow::videoFrameProbed(const QVideoFrame& frame) {
     qDebug() << __FUNCTION__;
-    return;
-    QByteArray buf;
-    QBuffer buffer(&buf);
-    buffer.open(QIODevice::WriteOnly);
-    static std::size_t count = 0;
-    QString fname = QString::number(count++) + ".jpeg";
-    qDebug() << QDateTime::currentMSecsSinceEpoch() << ":ID=" << id
-             << ":Saving to " << fname;
-    img.save(fname, "JPEG");
-}
-
-void MainWindow::readyForCaptureChanged(bool state) {
-    qDebug() << __FUNCTION__;
-    return;
-    if (state == true) {
-        camera->searchAndLock();
-        cap->capture();
-        camera->unlock();
-    }
-}
-
-void MainWindow::videoFrameProbed(QVideoFrame) {
-    qDebug() << __FUNCTION__;
+    qDebug() << "pixelFormat=" << frame.pixelFormat();
+    qDebug() << "width=" << frame.width();
+    qDebug() << "height=" << frame.height();
 }
 
 void MainWindow::init() {
     qDebug() << "initializing camera";
     camera = new QCamera(QCamera::FrontFace, this);
     camera->setCaptureMode(QCamera::CaptureVideo);
-    cap = new QCameraImageCapture(camera);
 
-    QImageEncoderSettings imageSettings;
-    imageSettings.setCodec("image/jpeg");
-    imageSettings.setResolution(640, 480);
-    imageSettings.setQuality(QMultimedia::VeryHighQuality);
-    cap->setEncodingSettings(imageSettings);
+    videoProbe = new QVideoProbe(this);
 
-    cap->setCaptureDestination(QCameraImageCapture::CaptureToBuffer);
-    QObject::connect(cap, SIGNAL(imageCaptured(int, QImage)), this,
-                     SLOT(imageCaptured(int, QImage)));
-    QObject::connect(cap, SIGNAL(readyForCaptureChanged(bool)), this,
-                     SLOT(readyForCaptureChanged(bool)));
-    auto videoProbe = new QVideoProbe(this);
-
-    if (videoProbe->setSource(camera)) {
-        // Probing succeeded, videoProbe->isValid() should be true.
-        connect(videoProbe, SIGNAL(videoFrameProbed(QVideoFrame)), this,
-                SLOT(videoFrameProbed(QVideoFrame)));
+    if (!videoProbe->setSource(camera)) {
+        qDebug() << "Unable to proble";
+        return;
     }
 
+    auto connected = false;
+    connected = connect(videoProbe, SIGNAL(videoFrameProbed(QVideoFrame)), this,
+                        SLOT(videoFrameProbed(QVideoFrame)));
+
+    Q_ASSERT(connected);
+    Q_UNUSED(connected);
     qDebug() << "Starting camera";
     camera->start();
 }

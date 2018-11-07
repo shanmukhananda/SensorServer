@@ -8,6 +8,6 @@ while True:
     data = s.recv(1024)
     if not data:
         break
-    print('Received', repr(data))
+    print('Received bytes:', len(data))
 
 s.close()

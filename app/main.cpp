@@ -2,7 +2,6 @@
 
 #include "app/model/model.h"
 #include "app/model/sensordata.h"
-#include "app/model/videofilter.h"
 #include "app/presenter/presenter.h"
 #include "app/view/view.h"
 
@@ -39,7 +38,6 @@ void keep_screen_on() {
 void run(int argc, char** argv) {
     LOG_SCOPE;
     // qSetMessagePattern("[%{threadid}][%{function}][%{line}]: %{message}");
-    qmlRegisterType<VideoFilter>("SensorServer", 1, 0, "VideoFilter");
     qRegisterMetaType<std::shared_ptr<SensorData>>(
         "std::shared_ptr<SensorData>");
 

@@ -1,6 +1,5 @@
 import QtQuick 2.5
 import QtMultimedia 5.5
-import SensorServer 1.0
 
 Item {
     visible: true
@@ -16,7 +15,6 @@ Item {
         objectName: "video_output"
         anchors.fill: parent
         source: camera
-        filters: [ video_filter ]
         autoOrientation: true
     }
 }

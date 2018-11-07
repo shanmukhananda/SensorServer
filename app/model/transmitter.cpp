@@ -63,8 +63,9 @@ bool Transmitter::socket_write(const std::shared_ptr<SensorData>& sensor_data_) 
         return false;
 
     auto buffer = sensor_data_->serialize();
-    _socket->write(reinterpret_cast<const char*>(buffer.data()),
-                   static_cast<qint64>(buffer.size()));
+    auto data = reinterpret_cast<const char*>(buffer.data());
+    auto size = static_cast<qint64>(buffer.size());
+    _socket->write(data, size);
     _socket->flush();
     _socket->waitForBytesWritten();
 

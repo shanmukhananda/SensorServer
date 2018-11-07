@@ -53,8 +53,8 @@ void Presenter::init() {
 
     // Model to View
     connected =
-        connect(_model.get(), SIGNAL(model_initialized(QObject*, Settings*)),
-                _view.get(), SLOT(model_initialized(QObject*, Settings*)));
+        connect(_model.get(), SIGNAL(model_initialized(Settings*)),
+                _view.get(), SLOT(model_initialized(Settings*)));
     Q_ASSERT(connected);
 
     // Model to Presenter

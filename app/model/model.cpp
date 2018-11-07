@@ -1,10 +1,11 @@
 #include "app/common/pch.h"
 
 #include "app/common/settings.h"
+#include "app/model/camerareceiver.h"
+#include "app/model/georeceiver.h"
+#include "app/model/imureceiver.h"
 #include "app/model/model.h"
-#include "app/model/receiver.h"
 #include "app/model/transmitter.h"
-#include "app/model/videofilter.h"
 
 Model::Model() {
     LOG_SCOPE;
@@ -13,79 +14,101 @@ Model::Model() {
 
 void Model::init() {
     LOG_SCOPE;
-    _receiver = std::make_unique<Receiver>();
     _settings = std::make_unique<Settings>();
     _transmitter = std::make_unique<Transmitter>();
-    _receiver_thread = std::make_unique<QThread>();
+    _camera_receiver = std::make_unique<CameraReceiver>();
+    _imu_receiver = std::make_unique<IMUReceiver>();
+    _geo_receiver = std::make_unique<GeoReceiver>();
+    _camera_receiver_thread = std::make_unique<QThread>();
+    _imu_receiver_thread = std::make_unique<QThread>();
+    _geo_receiver_thread = std::make_unique<QThread>();
     _transmitter_thread = std::make_unique<QThread>();
 
     auto connected = false;
     connected =
-        connect(_receiver.get(),
+        connect(_camera_receiver.get(),
                 SIGNAL(received_sensordata(std::shared_ptr<SensorData>)),
                 _transmitter.get(),
                 SLOT(received_sensordata(std::shared_ptr<SensorData>)));
     Q_ASSERT(connected);
-
     connected =
-        connect(_receiver.get(), SIGNAL(receiver_initialized(VideoFilter*)),
-                this, SLOT(receiver_initialized(VideoFilter*)));
+        connect(_imu_receiver.get(),
+                SIGNAL(received_sensordata(std::shared_ptr<SensorData>)),
+                _transmitter.get(),
+                SLOT(received_sensordata(std::shared_ptr<SensorData>)));
     Q_ASSERT(connected);
-
+    connected =
+        connect(_geo_receiver.get(),
+                SIGNAL(received_sensordata(std::shared_ptr<SensorData>)),
+                _transmitter.get(),
+                SLOT(received_sensordata(std::shared_ptr<SensorData>)));
+    Q_ASSERT(connected);
+    connected =
+        connect(this, SIGNAL(start_reception(Settings*)),
+                _camera_receiver.get(), SLOT(start_reception(Settings*)));
+    Q_ASSERT(connected);
     connected = connect(this, SIGNAL(start_reception(Settings*)),
-                        _receiver.get(), SLOT(start_reception(Settings*)));
+                        _imu_receiver.get(), SLOT(start_reception(Settings*)));
     Q_ASSERT(connected);
-
-    connected = connect(this, SIGNAL(stop_reception()), _receiver.get(),
+    connected = connect(this, SIGNAL(start_reception(Settings*)),
+                        _geo_receiver.get(), SLOT(start_reception(Settings*)));
+    Q_ASSERT(connected);
+    connected = connect(this, SIGNAL(stop_reception()), _camera_receiver.get(),
                         SLOT(stop_reception()));
     Q_ASSERT(connected);
-
+    connected = connect(this, SIGNAL(stop_reception()), _imu_receiver.get(),
+                        SLOT(stop_reception()));
+    Q_ASSERT(connected);
+    connected = connect(this, SIGNAL(stop_reception()), _geo_receiver.get(),
+                        SLOT(stop_reception()));
+    Q_ASSERT(connected);
     connected =
         connect(this, SIGNAL(start_transmission(Settings*)), _transmitter.get(),
                 SLOT(start_transmission(Settings*)));
     Q_ASSERT(connected);
-
     connected = connect(this, SIGNAL(stop_transmission()), _transmitter.get(),
                         SLOT(stop_transmission()));
     Q_ASSERT(connected);
-
-    connected = connect(this, SIGNAL(update_camera(QCamera*)), _receiver.get(),
-                        SLOT(update_camera(QCamera*)));
-
+    connected = connect(this, SIGNAL(update_camera(QCamera*)),
+                        _camera_receiver.get(), SLOT(update_camera(QCamera*)));
+    Q_ASSERT(connected);
     connected = connect(_transmitter.get(), SIGNAL(status(QString)), this,
                         SIGNAL(status(QString)));
     Q_ASSERT(connected);
     Q_UNUSED(connected);
 
-    _receiver->moveToThread(_receiver_thread.get());
+    _camera_receiver->moveToThread(_camera_receiver_thread.get());
+    _imu_receiver->moveToThread(_imu_receiver_thread.get());
+    _geo_receiver->moveToThread(_geo_receiver_thread.get());
     _transmitter->moveToThread(_transmitter_thread.get());
-    _receiver_thread->start();
+
+    _camera_receiver_thread->start();
+    _imu_receiver_thread->start();
+    _geo_receiver_thread->start();
     _transmitter_thread->start();
 }
 
 Model::~Model() {
     LOG_SCOPE;
 
-    _receiver_thread->quit();
-    _receiver_thread->wait();
-
+    _camera_receiver_thread->quit();
+    _camera_receiver_thread->wait();
+    _imu_receiver_thread->quit();
+    _imu_receiver_thread->wait();
+    _geo_receiver_thread->quit();
+    _geo_receiver_thread->wait();
     _transmitter_thread->quit();
     _transmitter_thread->wait();
 }
 
 void Model::run() {
     LOG_SCOPE;
-    _receiver->run();
+    emit model_initialized(_settings.get());
 }
 
 void Model::view_initialized(QCamera* camera_) {
     LOG_SCOPE;
     emit update_camera(camera_);
-}
-
-void Model::receiver_initialized(VideoFilter* video_filter_) {
-    LOG_SCOPE;
-    emit model_initialized(video_filter_, _settings.get());
 }
 
 void Model::started_sensor_server(const QString& ip_, const QString& port_) {
