@@ -85,8 +85,10 @@ void CameraReceiver::videoframe_probed(const QVideoFrame& vid_frame_) {
     for (decltype(nplanes) i = 0; i < nplanes; ++i)
         image_data->bytes_per_line_per_plane.push_back(frame_->bytesPerLine(i));
 
-    image_data->bits.assign(frame_->bits(),
-                            frame_->bits() + frame_->mappedBytes());
+    Q_ASSERT(frame_->mappedBytes() > 0);
+    auto size = static_cast<std::size_t>(frame_->mappedBytes());
+    image_data->bits.reserve(size);
+    image_data->bits.assign(frame_->bits(), frame_->bits() + size);
 
     frame_->unmap();
 

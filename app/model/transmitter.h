@@ -27,7 +27,7 @@ private:
     void create_server(Settings*);
     void close_server();
     void socket_create();
-    bool socket_write(const std::shared_ptr<SensorData>&);
+    bool socket_write(std::shared_ptr<SensorData>);
     void update_status(const QString&);
 
     QTcpServer* _tcp_server{nullptr};

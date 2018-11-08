@@ -14,6 +14,8 @@ Transmitter::~Transmitter() {
 
 void Transmitter::create_server(Settings* settings_) {
     LOG_SCOPE;
+
+    close_server();
     _tcp_server = new QTcpServer(this);
 
     auto connected = false;
@@ -57,7 +59,7 @@ void Transmitter::socket_create() {
     Q_UNUSED(connected);
 }
 
-bool Transmitter::socket_write(const std::shared_ptr<SensorData>& sensor_data_) {
+bool Transmitter::socket_write(std::shared_ptr<SensorData> sensor_data_) {
     // LOG_SCOPE;
     if (!_socket || !_socket->isValid())
         return false;
@@ -65,9 +67,29 @@ bool Transmitter::socket_write(const std::shared_ptr<SensorData>& sensor_data_) 
     auto buffer = sensor_data_->serialize();
     auto data = reinterpret_cast<const char*>(buffer.data());
     auto size = static_cast<qint64>(buffer.size());
+
     _socket->write(data, size);
     _socket->flush();
     _socket->waitForBytesWritten();
+
+#if 0
+    qint64 total_bytes_written = 0;
+    while (total_bytes_written < size) {
+        auto bytes_written = _socket->write(data + total_bytes_written,
+                                            size - total_bytes_written);
+        if (bytes_written < 0) {
+            LOG_ERROR << "unable to write to socket";
+            break;
+        }
+
+        total_bytes_written += bytes_written;
+
+        auto flushed = _socket->flush();
+        Q_UNUSED(flushed);
+        auto success = _socket->waitForBytesWritten();
+        Q_UNUSED(success);
+    }
+#endif
 
     return true;
 }

@@ -18,8 +18,11 @@ std::vector<std::uint8_t> AcceleromterData::serialize() const {
     builder.add_y(y);
     builder.add_z(z);
     fbb.Finish(builder.Finish());
-    std::vector<std::uint8_t> serialized(
-        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
+
+    std::vector<std::uint8_t> serialized;
+    serialized.reserve(fbb.GetSize());
+    serialized.assign(fbb.GetBufferPointer(),
+                      fbb.GetBufferPointer() + fbb.GetSize());
     return serialized;
 }
 
@@ -37,8 +40,11 @@ std::vector<std::uint8_t> GyroscopeData::serialize() const {
     builder.add_y(y);
     builder.add_z(z);
     fbb.Finish(builder.Finish());
-    std::vector<std::uint8_t> serialized(
-        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
+
+    std::vector<std::uint8_t> serialized;
+    serialized.reserve(fbb.GetSize());
+    serialized.assign(fbb.GetBufferPointer(),
+                      fbb.GetBufferPointer() + fbb.GetSize());
     return serialized;
 }
 
@@ -58,9 +64,11 @@ std::vector<std::uint8_t> GeodeticData::serialize() const {
     builder.add_longitude(longitude);
     builder.add_timestamp(timestamp);
     builder.add_type(messages::SensorType_Geo);
-    fbb.Finish(builder.Finish());
-    std::vector<std::uint8_t> serialized(
-        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
+
+    std::vector<std::uint8_t> serialized;
+    serialized.reserve(fbb.GetSize());
+    serialized.assign(fbb.GetBufferPointer(),
+                      fbb.GetBufferPointer() + fbb.GetSize());
     return serialized;
 }
 
@@ -82,7 +90,10 @@ std::vector<std::uint8_t> ImageData::serialize() const {
     builder.add_type(messages::SensorType_Camera);
     builder.add_width(width);
     fbb.Finish(builder.Finish());
-    std::vector<std::uint8_t> serialized(
-        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
+
+    std::vector<std::uint8_t> serialized;
+    serialized.reserve(fbb.GetSize());
+    serialized.assign(fbb.GetBufferPointer(),
+                      fbb.GetBufferPointer() + fbb.GetSize());
     return serialized;
 }

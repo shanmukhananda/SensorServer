@@ -52,9 +52,8 @@ void Presenter::init() {
     Q_ASSERT(connected);
 
     // Model to View
-    connected =
-        connect(_model.get(), SIGNAL(model_initialized(Settings*)),
-                _view.get(), SLOT(model_initialized(Settings*)));
+    connected = connect(_model.get(), SIGNAL(model_initialized(Settings*)),
+                        _view.get(), SLOT(model_initialized(Settings*)));
     Q_ASSERT(connected);
 
     // Model to Presenter
