@@ -24,6 +24,7 @@ private slots:
 
 private:
     void init();
+    void process_videoframe(QVideoFrame*);
 
     QCamera* _camera{nullptr};
     std::unique_ptr<QVideoProbe> _video_probe;

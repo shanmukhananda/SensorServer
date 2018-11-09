@@ -30,9 +30,11 @@ SOURCES += \
     app/model/imureceiver.cpp \
     app/model/model.cpp \
     app/model/sensordata.cpp \
+    app/model/tcpsender.cpp \
     app/model/transmitter.cpp \
     app/presenter/presenter.cpp \
-    app/view/view.cpp
+    app/view/view.cpp \
+    app/model/udpsender.cpp
 
 HEADERS += \
     app/common/log.h \
@@ -43,9 +45,12 @@ HEADERS += \
     app/model/imureceiver.h \
     app/model/model.h \
     app/model/sensordata.h \
+    app/model/tcpsender.h \
     app/model/transmitter.h \
     app/presenter/presenter.h \
-    app/view/view.h
+    app/view/view.h \
+    app/model/udpsender.h \
+    app/model/sender.h
 
 FORMS += \
     app/view/view.ui

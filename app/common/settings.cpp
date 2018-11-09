@@ -8,8 +8,8 @@ Settings::Settings()
     , _is_gyroscope_enabled(false)
     , _is_camera_enabled(false)
     , _is_gps_enabled(false)
-    , _ip()
-    , _port() {
+    , _ip("255.255.255.255")
+    , _port("9000") {
     LOG_SCOPE;
 }
 
@@ -79,4 +79,19 @@ int Settings::imu_frequency() const {
 
 qreal Settings::camera_frequency() const {
     return 30.0;
+}
+
+std::pair<QHostAddress, quint16> Settings::get_ip_and_port() {
+    QHostAddress ip_add;
+    if (!ip_add.setAddress(_ip))
+        throw std::runtime_error("invalid ip address");
+
+    auto ok = false;
+    int port_temp = _port.toInt(&ok);
+
+    if (port_temp <= 0 && !ok)
+        throw std::runtime_error("invalid port");
+
+    auto port = static_cast<quint16>(port_temp);
+    return std::make_pair(ip_add, port);
 }

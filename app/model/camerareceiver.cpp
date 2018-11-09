@@ -22,6 +22,43 @@ void CameraReceiver::init() {
     Q_UNUSED(connected);
 }
 
+void CameraReceiver::process_videoframe(QVideoFrame* frame_) {
+    // LOG_SCOPE;
+    try {
+        auto timestamp = QDateTime::currentMSecsSinceEpoch();
+        QString pix_format;
+        QDebug(&pix_format) << frame_->pixelFormat();
+        pix_format = pix_format.trimmed();
+
+        Q_ASSERT(frame_->width() > 0);
+        Q_ASSERT(frame_->height() > 0);
+        Q_ASSERT(timestamp > 0);
+
+        auto image_data = std::make_shared<ImageData>();
+        image_data->_timestamp = static_cast<std::uint64_t>(timestamp);
+        image_data->width = frame_->width();
+        image_data->height = frame_->height();
+        image_data->pixel_format = pix_format.toStdString();
+        auto nplanes = frame_->planeCount();
+        image_data->plane_count = nplanes;
+        for (decltype(nplanes) i = 0; i < nplanes; ++i)
+            image_data->bytes_per_line_per_plane.push_back(
+                frame_->bytesPerLine(i));
+
+        Q_ASSERT(frame_->mappedBytes() > 0);
+        image_data->mapped_bytes = frame_->mappedBytes();
+        auto size = static_cast<std::size_t>(frame_->mappedBytes());
+        image_data->bits.reserve(size);
+        image_data->bits.assign(frame_->bits(), frame_->bits() + size);
+
+        emit received_sensordata(image_data);
+    } catch (std::exception& e) {
+        LOG_ERROR << "caught exception:" << e.what();
+    } catch (...) {
+        LOG_ERROR << "caught unknown exception";
+    }
+}
+
 CameraReceiver::~CameraReceiver() {
     LOG_SCOPE;
 }
@@ -66,31 +103,6 @@ void CameraReceiver::videoframe_probed(const QVideoFrame& vid_frame_) {
         !frame_->map(QAbstractVideoBuffer::ReadOnly))
         return;
 
-    auto timestamp = QDateTime::currentMSecsSinceEpoch();
-    QString pix_format;
-    QDebug(&pix_format) << frame_->pixelFormat();
-    pix_format = pix_format.trimmed();
-
-    Q_ASSERT(frame_->width() > 0);
-    Q_ASSERT(frame_->height() > 0);
-    Q_ASSERT(timestamp > 0);
-
-    auto image_data = std::make_shared<ImageData>();
-    image_data->timestamp = static_cast<std::uint64_t>(timestamp);
-    image_data->width = frame_->width();
-    image_data->height = frame_->height();
-    image_data->pixel_format = pix_format.toStdString();
-
-    auto nplanes = frame_->planeCount();
-    for (decltype(nplanes) i = 0; i < nplanes; ++i)
-        image_data->bytes_per_line_per_plane.push_back(frame_->bytesPerLine(i));
-
-    Q_ASSERT(frame_->mappedBytes() > 0);
-    auto size = static_cast<std::size_t>(frame_->mappedBytes());
-    image_data->bits.reserve(size);
-    image_data->bits.assign(frame_->bits(), frame_->bits() + size);
-
+    process_videoframe(frame_.get());
     frame_->unmap();
-
-    emit received_sensordata(image_data);
 }

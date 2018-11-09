@@ -41,6 +41,7 @@ goto :eof
     set "path=%flatc_path%;%path%"
     pushd "%project_dir%\app\messages"
     flatc --cpp %project_dir%\app\messages\messages.fbs
+    flatc --cpp %project_dir%\app\messages\udpheader.fbs
     popd
     endlocal
 

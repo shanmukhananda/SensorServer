@@ -31,7 +31,9 @@ table Image {
     width:int = 0;
     height:int = 0;
     pixel_format:string;
+    plane_count:int = 0;
     bytes_per_line_per_plane:[int];
+    mapped_bytes:int = 0;
     bits:[ubyte];
 }
 

@@ -5,7 +5,7 @@ s.settimeout(3)
 s.connect(("192.168.1.7", 9000))
 
 while True:
-    data = s.recv(1024)
+    data = s.recv(8192)
     if not data:
         break
     print('Received bytes:', len(data))

@@ -1,0 +1,8 @@
+namespace messages;
+
+struct UDPHeader {
+    type:ubyte;
+    timestamp:ulong;
+    sequence_number:ulong;
+    payload_size:ulong;
+}

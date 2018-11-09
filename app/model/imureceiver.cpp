@@ -61,7 +61,7 @@ void IMUReceiver::send_accelerometer_reading() {
         auto timestamp = QDateTime::currentMSecsSinceEpoch();
         Q_ASSERT(timestamp > 0);
         auto accel_data = std::make_shared<AcceleromterData>();
-        accel_data->timestamp = static_cast<std::uint64_t>(timestamp);
+        accel_data->_timestamp = static_cast<std::uint64_t>(timestamp);
         accel_data->x = accel_reading->x();
         accel_data->y = accel_reading->y();
         accel_data->z = accel_reading->z();
@@ -77,7 +77,7 @@ void IMUReceiver::send_gyroscope_reading() {
         auto timestamp = QDateTime::currentMSecsSinceEpoch();
         Q_ASSERT(timestamp > 0);
         auto gyro_data = std::make_shared<GyroscopeData>();
-        gyro_data->timestamp = static_cast<std::uint64_t>(timestamp);
+        gyro_data->_timestamp = static_cast<std::uint64_t>(timestamp);
         gyro_data->x = gyro_reading->x();
         gyro_data->y = gyro_reading->y();
         gyro_data->z = gyro_reading->z();

@@ -20,6 +20,7 @@
 #include <QString>
 #include <QThread>
 #include <QTimer>
+#include <QUdpSocket>
 #include <QVideoFilterRunnable>
 #include <QVideoProbe>
 #include <QtDebug>

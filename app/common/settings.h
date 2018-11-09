@@ -35,6 +35,8 @@ public:
     int imu_frequency() const;
     qreal camera_frequency() const;
 
+    std::pair<QHostAddress, quint16> get_ip_and_port();
+
 private:
     resolution _resolution;
     bool _is_accelerometer_enabled;

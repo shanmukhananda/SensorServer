@@ -19,7 +19,7 @@ void Model::init() {
     _camera_receiver = std::make_unique<CameraReceiver>();
     _imu_receiver = std::make_unique<IMUReceiver>();
     _geo_receiver = std::make_unique<GeoReceiver>();
-    _camera_receiver_thread = std::make_unique<QThread>();
+    // _camera_receiver_thread = std::make_unique<QThread>();
     _imu_receiver_thread = std::make_unique<QThread>();
     _geo_receiver_thread = std::make_unique<QThread>();
     _transmitter_thread = std::make_unique<QThread>();
@@ -77,12 +77,12 @@ void Model::init() {
     Q_ASSERT(connected);
     Q_UNUSED(connected);
 
-    _camera_receiver->moveToThread(_camera_receiver_thread.get());
+    // _camera_receiver->moveToThread(_camera_receiver_thread.get());
     _imu_receiver->moveToThread(_imu_receiver_thread.get());
     _geo_receiver->moveToThread(_geo_receiver_thread.get());
     _transmitter->moveToThread(_transmitter_thread.get());
 
-    _camera_receiver_thread->start();
+    // _camera_receiver_thread->start();
     _imu_receiver_thread->start();
     _geo_receiver_thread->start();
     _transmitter_thread->start();
@@ -91,8 +91,8 @@ void Model::init() {
 Model::~Model() {
     LOG_SCOPE;
 
-    _camera_receiver_thread->quit();
-    _camera_receiver_thread->wait();
+    // _camera_receiver_thread->quit();
+    // _camera_receiver_thread->wait();
     _imu_receiver_thread->quit();
     _imu_receiver_thread->wait();
     _geo_receiver_thread->quit();
