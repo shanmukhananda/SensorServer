@@ -8,6 +8,7 @@ QT += \
     quick \
     quickwidgets \
     sensors \
+    websockets \
     widgets
 
 TARGET = SensorServer
@@ -34,7 +35,8 @@ SOURCES += \
     app/model/transmitter.cpp \
     app/presenter/presenter.cpp \
     app/view/view.cpp \
-    app/model/udpsender.cpp
+    app/model/udpsender.cpp \
+    app/model/wssender.cpp
 
 HEADERS += \
     app/common/log.h \
@@ -50,7 +52,8 @@ HEADERS += \
     app/presenter/presenter.h \
     app/view/view.h \
     app/model/udpsender.h \
-    app/model/sender.h
+    app/model/sender.h \
+    app/model/wssender.h
 
 FORMS += \
     app/view/view.ui

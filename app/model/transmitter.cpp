@@ -5,6 +5,7 @@
 #include "app/model/tcpsender.h"
 #include "app/model/transmitter.h"
 #include "app/model/udpsender.h"
+#include "app/model/wssender.h"
 
 Transmitter::Transmitter() {
     LOG_SCOPE;
@@ -13,7 +14,7 @@ Transmitter::Transmitter() {
 
 void Transmitter::init() {
     LOG_SCOPE;
-    _sender = std::make_unique<UDPSender>(this);
+    _sender = std::make_unique<WSSender>(this);
     auto connected = false;
     connected = connect(_sender.get(), SIGNAL(status(QString)), this,
                         SIGNAL(status(QString)));

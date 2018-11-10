@@ -25,17 +25,16 @@ void UDPSender::send(std::shared_ptr<SensorData> sensor_data_) {
         auto data_ = sensor_data_->serialize();
 
         constexpr int dgram_size = 1024;
-        constexpr std::uint32_t bunch_size =
-            dgram_size - sizeof(messages::UDPHeader);
+        constexpr int bunch_size = dgram_size - sizeof(messages::UDPHeader);
 
-        for (std::size_t i = 0; i < data_.size(); i += bunch_size) {
+        for (decltype(data_.size()) i = 0; i < data_.size(); i += bunch_size) {
             auto header = messages::UDPHeader{
                 static_cast<std::uint8_t>(sensor_data_->type()),
                 sensor_data_->timestamp(), i, data_.size()};
 
-            std::size_t bunch_end = std::min(data_.size(), i + bunch_size);
-            auto begin_iter = data_.begin() + static_cast<int>(i);
-            auto end_iter = data_.begin() + static_cast<int>(bunch_end);
+            auto bunch_end = std::min<int>(data_.size(), i + bunch_size);
+            auto begin_iter = data_.begin() + i;
+            auto end_iter = data_.begin() + bunch_end;
             auto current_bunch_size = std::distance(begin_iter, end_iter);
 
             QByteArray dgram;
@@ -45,7 +44,7 @@ void UDPSender::send(std::shared_ptr<SensorData> sensor_data_) {
             auto header_len = static_cast<int>(sizeof(header));
             dgram.append(header_start, header_len);
             auto dgram_start = reinterpret_cast<const char*>(&(*begin_iter));
-            auto dgram_len = static_cast<int>(current_bunch_size);
+            auto dgram_len = current_bunch_size;
             dgram.append(dgram_start, dgram_len);
             _socket->writeDatagram(dgram, _ip_port.first, _ip_port.second);
         }

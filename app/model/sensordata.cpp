@@ -8,7 +8,7 @@ AcceleromterData::AcceleromterData() {
     _type = sensor_type::accelerometer;
 }
 
-std::vector<std::uint8_t> AcceleromterData::serialize() const {
+QByteArray AcceleromterData::serialize() const {
     // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     messages::AccelerationBuilder builder(fbb);
@@ -19,11 +19,9 @@ std::vector<std::uint8_t> AcceleromterData::serialize() const {
     builder.add_z(z);
     fbb.Finish(builder.Finish());
 
-    std::vector<std::uint8_t> serialized;
-    serialized.reserve(fbb.GetSize());
-    serialized.assign(fbb.GetBufferPointer(),
-                      fbb.GetBufferPointer() + fbb.GetSize());
-    return serialized;
+    auto data = reinterpret_cast<const char*>(fbb.GetBufferPointer());
+    auto size = static_cast<int>(fbb.GetSize());
+    return QByteArray(data, size);
 }
 
 sensor_type AcceleromterData::type() const {
@@ -38,7 +36,7 @@ GyroscopeData::GyroscopeData() {
     _type = sensor_type::gyroscope;
 }
 
-std::vector<std::uint8_t> GyroscopeData::serialize() const {
+QByteArray GyroscopeData::serialize() const {
     // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     messages::OrientationBuilder builder(fbb);
@@ -49,11 +47,9 @@ std::vector<std::uint8_t> GyroscopeData::serialize() const {
     builder.add_z(z);
     fbb.Finish(builder.Finish());
 
-    std::vector<std::uint8_t> serialized;
-    serialized.reserve(fbb.GetSize());
-    serialized.assign(fbb.GetBufferPointer(),
-                      fbb.GetBufferPointer() + fbb.GetSize());
-    return serialized;
+    auto data = reinterpret_cast<const char*>(fbb.GetBufferPointer());
+    auto size = static_cast<int>(fbb.GetSize());
+    return QByteArray(data, size);
 }
 
 sensor_type GyroscopeData::type() const {
@@ -68,7 +64,7 @@ GeodeticData::GeodeticData() {
     _type = sensor_type::geo;
 }
 
-std::vector<std::uint8_t> GeodeticData::serialize() const {
+QByteArray GeodeticData::serialize() const {
     // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     messages::GeolocationBuilder builder(fbb);
@@ -81,11 +77,9 @@ std::vector<std::uint8_t> GeodeticData::serialize() const {
     builder.add_timestamp(_timestamp);
     builder.add_type(messages::SensorType_Geo);
 
-    std::vector<std::uint8_t> serialized;
-    serialized.reserve(fbb.GetSize());
-    serialized.assign(fbb.GetBufferPointer(),
-                      fbb.GetBufferPointer() + fbb.GetSize());
-    return serialized;
+    auto data = reinterpret_cast<const char*>(fbb.GetBufferPointer());
+    auto size = static_cast<int>(fbb.GetSize());
+    return QByteArray(data, size);
 }
 
 sensor_type GeodeticData::type() const {
@@ -100,7 +94,7 @@ ImageData::ImageData() {
     _type = sensor_type::camera;
 }
 
-std::vector<std::uint8_t> ImageData::serialize() const {
+QByteArray ImageData::serialize() const {
     // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     auto bits_fb = fbb.CreateVector(bits);
@@ -117,11 +111,9 @@ std::vector<std::uint8_t> ImageData::serialize() const {
     builder.add_width(width);
     fbb.Finish(builder.Finish());
 
-    std::vector<std::uint8_t> serialized;
-    serialized.reserve(fbb.GetSize());
-    serialized.assign(fbb.GetBufferPointer(),
-                      fbb.GetBufferPointer() + fbb.GetSize());
-    return serialized;
+    auto data = reinterpret_cast<const char*>(fbb.GetBufferPointer());
+    auto size = static_cast<int>(fbb.GetSize());
+    return QByteArray(data, size);
 }
 
 sensor_type ImageData::type() const {

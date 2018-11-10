@@ -25,12 +25,16 @@
 #include <QVideoProbe>
 #include <QtDebug>
 #include <QtQml>
+#include <QtWebSockets/QWebSocket>
+#include <QtWebSockets/QWebSocketServer>
+
 #ifdef Q_OS_ANDROID
 #include <QAndroidJniEnvironment>
 #include <QAndroidJniObject>
 #include <QtAndroid>
 #endif
 
+#include <algorithm>
 #include <atomic>
 #include <condition_variable>
 #include <cstdint>

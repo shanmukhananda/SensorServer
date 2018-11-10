@@ -1,17 +1,11 @@
 #pragma once
 
 #include "app/common/pch.h"
+
 #include "app/model/sender.h"
 
 class SensorData;
 class Settings;
-
-// struct UDPHeader {
-//     std::uint8_t type = 0;
-//     std::uint64_t timestamp = 0;
-//     std::uint64_t sequence_number = 0;
-//     std::uint64_t payload_size = 0;
-// };
 
 class UDPSender : public Sender {
     Q_OBJECT

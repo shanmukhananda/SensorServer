@@ -8,7 +8,7 @@ Settings::Settings()
     , _is_gyroscope_enabled(false)
     , _is_camera_enabled(false)
     , _is_gps_enabled(false)
-    , _ip("255.255.255.255")
+    , _ip("0.0.0.0")
     , _port("9000") {
     LOG_SCOPE;
 }
