@@ -67,7 +67,7 @@ android {
     debug {
         message("configuring android:debug")
         INCLUDEPATH += $$PWD/vendor/installed/armeabi-v7a-android-debug/include
-        LIBS += -L"$$PWD/vendor/installed/armeabi-v7a-android-debug/lib/liblatbuffers.a"
+        LIBS += -L"$$PWD/vendor/installed/armeabi-v7a-android-debug/lib/libflatbuffers.a"
     }
     release {
         message("configuring android:release")
@@ -85,7 +85,7 @@ win32 {
         debug {
             message("configuring win32:msvc*:debug")
             INCLUDEPATH += $$PWD/vendor/installed/msvc-2017-x64-windows-debug/include
-            LIBS += -L"$$PWD/vendor/installed/msvc-2017-x64-windows-debug/lib/liblatbuffers.a"
+            LIBS += -L"$$PWD/vendor/installed/msvc-2017-x64-windows-debug/lib/libflatbuffers.a"
         }
         release {
             message("configuring win32:msvc*:release")

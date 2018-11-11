@@ -3,16 +3,16 @@ setlocal
 
 echo "-------------------------------------------------------------------------"
 echo "~ EXTERNAL DEPENDENCIES ~"
-echo "   # git (version control tool used to download packages)"
-echo "   # ANDROID_NDK_HOME (Android NDK installation path)"
-echo "           - ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake"
-echo "           - ANDROID_NDK_HOME/prebuilt/windows-x86_64/bin/make.exe"
-echo "   # Visual Studio 2017"
-echo "   # CMake"
+echo "  # git (version control tool used to download packages)"
+echo "  # ANDROID_NDK_HOME (Android NDK installation path)"
+echo "      - ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake"
+echo "      - ANDROID_NDK_HOME/prebuilt/windows-x86_64/bin/make.exe"
+echo "  # Visual Studio 2017"
+echo "  # CMake"
 echo "-------------------------------------------------------------------------"
 
 set "project_dir=None"
-call :main
+call :main %*
 goto :eof
 
 :check_path
@@ -27,7 +27,7 @@ goto :eof
     goto :eof
 
 :set_project_directory
-    echo DEBUG :check_path %*
+    echo DEBUG :set_project_directory %*
     set "script_dir=%~dp0"
     set "script_dir=%script_dir:~0,-1%"
     set "project_dir=%script_dir%\..\.."

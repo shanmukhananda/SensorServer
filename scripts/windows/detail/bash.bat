@@ -11,7 +11,7 @@ echo "       - https://www.microsoft.com/store/productId/9NBLGGH4MSV6"
 echo "-------------------------------------------------------------------------"
 
 set "project_dir=None"
-call :main
+call :main %*
 goto :eof
 
 :check_path
@@ -26,7 +26,7 @@ goto :eof
     goto :eof
 
 :set_project_directory
-    echo DEBUG :check_path %*
+    echo DEBUG :set_project_directory %*
     set "script_dir=%~dp0"
     set "script_dir=%script_dir:~0,-1%"
     set "project_dir=%script_dir%\..\..\.."
@@ -40,7 +40,7 @@ goto :eof
     echo DEBUG :main %*
     call :set_project_directory
     pushd %project_dir%
-    bash -c "scripts/linux/detail/code-format.sh"
+    bash -c "%*"
     popd
     goto :eof
 

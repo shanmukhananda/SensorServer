@@ -8,7 +8,7 @@ echo "          - scripts\windows\bootstrap.bat should create above file"
 echo "-------------------------------------------------------------------------"
 
 set "project_dir=None"
-call :main
+call :main %*
 goto :eof
 
 :check_path
@@ -23,7 +23,7 @@ goto :eof
     goto :eof
 
 :set_project_directory
-    echo DEBUG :check_path %*
+    echo DEBUG :set_project_directory %*
     set "script_dir=%~dp0"
     set "script_dir=%script_dir:~0,-1%"
     set "project_dir=%script_dir%\..\..\.."
@@ -40,8 +40,13 @@ goto :eof
     call :check_path "%flatc_path%"
     set "path=%flatc_path%;%path%"
     pushd "%project_dir%\app\messages"
-    flatc --cpp %project_dir%\app\messages\messages.fbs
-    flatc --cpp %project_dir%\app\messages\udpheader.fbs
+    set command=flatc --cpp %project_dir%\app\messages\messages.fbs
+    echo Starting: %command%
+    call %command%
+
+    set command=flatc --cpp %project_dir%\app\messages\udpheader.fbs
+    echo Starting: %command%
+    call %command%
     popd
     endlocal
 
