@@ -1,0 +1,6 @@
+# https://www.appveyor.com/docs/appveyor-yml
+
+image: Visual Studio 2017
+shallow_clone: true
+build_script:
+  - scripts\windows\detail\ci_cd.bat

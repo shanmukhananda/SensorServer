@@ -2,6 +2,15 @@
 
 **Mobile application to send Acceleration, Orientation, Geolocation and Images over WebSocket**
 
+## Build Status
+
+| Windows                                             |
+|-----------------------------------------------------|
+| [![Build Status][appveyor_status]][appveyor_builds] |
+
+[appveyor_status]: https://ci.appveyor.com/api/projects/status/37q13yfwywtts4m8?svg=true
+[appveyor_builds]: https://ci.appveyor.com/project/shanmukhananda/sensorserver
+
 ## Tools Required
 
 - [Android NDK (Revision 17c)](https://dl.google.com/android/repository/android-ndk-r17c-windows-x86_64.zip)
@@ -43,25 +52,26 @@
 ## Update Environment Variables
 
 - `Path`
-    - Below executable's directories are required to be appended to `Path`
-        - `git.exe` *`(C:\Program Files\Git\cmd)`*
-        - `cmake.exe` *`(C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin)`*
+    - Below executable's directory need to be appended to `Path`
         - `clang-format.exe` *`(C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\vcpackages)`*
+        - `cmake.exe` *`(C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin)`*
+        - `git.exe` *`(C:\Program Files\Git\cmd)`*
         - `java.exe` *`(C:\Program Files\Java\jdk1.8.0_192\bin)`*
-- `ANDROID_SDK_HOME=C:\Android\sdk-tools-windows`
 - `ANDROID_NDK_HOME=C:\Android\android-ndk-r17c`
+- `ANDROID_SDK_HOME=C:\Android\sdk-tools-windows`
+- `JAVA_HOME=C:\Program Files\Java\jdk1.8.0_192`
 - `QTDIR=C:\Qt\Qt5.11.2`
 - `QTKITS=C:\Qt\Qt5.11.2\5.11.2`
-- `JAVA_HOME=C:\Program Files\Java\jdk1.8.0_192`
 
 ## Build
 
 Steps to Build for Windows and Android
 
 1. Build third party dependencies using `scripts\windows\bootstrap.bat`
-2. Generate IDL source code using `scripts\windows\detail\generate.bat`
-3. Build for MSVC 2017 target using `scripts\windows\build_msvc.bat` or build for Android using `scripts\windows\build_android.bat`
+2. Generate IDL's source code using `scripts\windows\detail\generate.bat`
+3. Build for MSVC 2017 target using `scripts\windows\build_msvc.bat`
+4. Build for Android using `scripts\windows\build_android.bat`
 
 ## Miscellaneous
 
-- Clang Code format `scripts\windows\detail\code_format.bat`
+- Clang code format `scripts\windows\detail\code_format.bat`
