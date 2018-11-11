@@ -67,11 +67,10 @@
 
 Steps to Build for Windows and Android
 
-1. Build third party dependencies using `scripts\windows\bootstrap.bat`
-2. Generate IDL's source code using `scripts\windows\detail\generate.bat`
-3. Build for MSVC 2017 target using `scripts\windows\build_msvc.bat`
-4. Build for Android using `scripts\windows\build_android.bat`
+1. Build third party dependencies using `scripts\bootstrap.py --target windows(or android)`
+2. Generate IDL's source code using `scripts\detail\generate.py`
+3. Build for MSVC 2017 or Android target using `scripts\build.py --target windows(or android)`
 
 ## Miscellaneous
 
-- Clang code format `scripts\windows\detail\code_format.bat`
+- Clang code format `scripts\detail\code_format.py`

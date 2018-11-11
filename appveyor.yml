@@ -3,4 +3,4 @@
 image: Visual Studio 2017
 shallow_clone: true
 build_script:
-  - scripts\windows\detail\ci_cd.bat
+  - python scripts\detail\ci_cd.py

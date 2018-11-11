@@ -6,10 +6,11 @@
 /.vs
 /.vscode
 Generated*/
+__pycache__
 build*/
 debug/
 installed*/
 release/
-vendor/
+vendor*/
 x64/
 x86/
