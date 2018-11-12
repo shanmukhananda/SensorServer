@@ -28,8 +28,10 @@ def check_path(path):
 def execute(cmd):
     def call(cmd):
         print(f"Starting: {cmd}")
+        sys.stdout.flush()
         subprocess.call(cmd)
         print(f"Exited: {cmd}")
+        sys.stdout.flush()
 
     if isinstance(cmd, list):
         call(cmd)

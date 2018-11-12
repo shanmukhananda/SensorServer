@@ -9,4 +9,7 @@ environment:
       PYTHON_ARCH: "64"
 
 build_script:
+  - set "Path=C:\Python36-x64;%Path%"
+  - set "QTDIR=C:\Qt\5.11.1"
+  - set "QTKITS=%QTDIR%"
   - python scripts\detail\ci_cd.py

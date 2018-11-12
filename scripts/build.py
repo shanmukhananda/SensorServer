@@ -71,19 +71,20 @@ def build_windows_impl(buildtype):
     msvc_env = R"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
     utils.check_path(msvc_env)
     pro_file = os.path.join(os.getcwd(), "SensorServer.pro")
-    jom_path = os.path.join(os.environ["QTDIR"], "Tools", "QtCreator", "bin", "jom.exe")
+    utils.check_path(pro_file)
+    nmake_cmd = f"nmake {buildtype}"
     qmake_path = os.path.join(os.environ["QTKITS"], "msvc2017_64", "bin", "qmake.exe")
+    utils.check_path(qmake_path)
 
     output_dir = f"msvc-2017-x64-{buildtype}"
     build_dir = os.path.join(os.getcwd(), "build", output_dir)
     utils.mkdir_p(build_dir)
 
     qmake_generate_ = f"{qmake_path} {pro_file} -spec win32-msvc CONFIG+={buildtype} CONFIG+=qtquickcompiler"
-    qmake_all_ = f"{jom_path} qmake_all"
-
+    os.environ["CL"] = "/MP"
     with utils.pushd(build_dir):
         msvc_env = f"\"{msvc_env}\""
-        build_cmd = msvc_env + " && " + qmake_generate_ + " && " + qmake_all_ + " && " + jom_path
+        build_cmd = msvc_env + " && " + qmake_generate_ + " && " + nmake_cmd
         build_cmd = build_cmd.replace("\r","")
         build_cmd = build_cmd.replace("\n","")
         utils.execute(build_cmd)

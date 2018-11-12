@@ -67,10 +67,19 @@
 
 Steps to Build for Windows and Android
 
-1. Build third party dependencies using `scripts\bootstrap.py --target windows(or android)`
-2. Generate IDL's source code using `scripts\detail\generate.py`
-3. Build for MSVC 2017 or Android target using `scripts\build.py --target windows(or android)`
+1. Build third party dependencies using `scripts\bootstrap.py --target windows (or android)`
+2. Build for MSVC 2017 or Android target using `scripts\build.py --target windows (or android)`
 
 ## Miscellaneous
 
 - Clang code format `scripts\detail\code_format.py`
+
+## Issues
+- `QTKITS` environment variable is required because `msvc2017_64` is not installed under `QTDIR` root directory by the installer
+- `scripts\detail\code_format.py` might generate exception while formatting using YAPF, this is a known issue if f-strings are used
+- While sending camera images over socket below error is observed. Reason is UNKNOWN
+    ```
+    W CameraBase: Camera service died!
+    W CameraBase: mediaserver's remote binder Camera object died
+    E Camera: Error 100
+    ```
