@@ -1,7 +1,12 @@
 # https://www.appveyor.com/docs/appveyor-yml
 
 image: Visual Studio 2017
+
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 shallow_clone: true
+
 environment:
   matrix:
     - PYTHON: "C:\\Python36-x64"
@@ -13,3 +18,6 @@ build_script:
   - set "QTDIR=C:\Qt\5.11.1"
   - set "QTKITS=%QTDIR%"
   - python scripts\detail\ci_cd.py
+
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
