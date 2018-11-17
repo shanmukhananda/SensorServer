@@ -4,6 +4,7 @@ import shutil
 import sys
 import subprocess
 
+
 @contextmanager
 def pushd(destination):
     try:
@@ -13,17 +14,21 @@ def pushd(destination):
     finally:
         os.chdir(cwd)
 
+
 def mkdir_p(path):
     if not os.path.exists(path):
         os.makedirs(path)
+
 
 def cmd_exists(cmd):
     if shutil.which(cmd) is None:
         raise FileNotFoundError(f"{cmd} is not installed")
 
+
 def check_path(path):
     if not os.path.exists(path):
         raise FileNotFoundError(f"{path} does not exist")
+
 
 def execute(cmd):
     def call(cmd):
@@ -40,5 +45,6 @@ def execute(cmd):
     else:
         raise TypeError(f"{cmd} type is invalid")
 
+
 if "__main__" == __name__:
-        pass
+    pass

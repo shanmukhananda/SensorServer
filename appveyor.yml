@@ -19,5 +19,7 @@ build_script:
   - set "QTKITS=%QTDIR%"
   - python scripts\detail\ci_cd.py
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# Block RDP after build finish
+# https://www.appveyor.com/docs/how-to/rdp-to-build-worker/
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
