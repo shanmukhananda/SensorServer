@@ -40,6 +40,7 @@ void run(int argc, char** argv) {
     // qSetMessagePattern("[%{threadid}][%{function}][%{line}]: %{message}");
     qRegisterMetaType<std::shared_ptr<SensorData>>(
         "std::shared_ptr<SensorData>");
+    qRegisterMetaType<std::shared_ptr<QImage>>("std::shared_ptr<QImage>");
 
     keep_screen_on();
 

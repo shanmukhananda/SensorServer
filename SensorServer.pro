@@ -2,6 +2,7 @@ QT += \
     core \
     gui \
     multimedia \
+    multimedia-private \
     network \
     positioning \
     qml \
@@ -27,33 +28,35 @@ SOURCES += \
     app/common/settings.cpp \
     app/main.cpp \
     app/model/camerareceiver.cpp \
+    app/model/compressor.cpp \
     app/model/georeceiver.cpp \
     app/model/imureceiver.cpp \
     app/model/model.cpp \
     app/model/sensordata.cpp \
     app/model/tcpsender.cpp \
     app/model/transmitter.cpp \
-    app/presenter/presenter.cpp \
-    app/view/view.cpp \
     app/model/udpsender.cpp \
-    app/model/wssender.cpp
+    app/model/wssender.cpp \
+    app/presenter/presenter.cpp \
+    app/view/view.cpp
 
 HEADERS += \
     app/common/log.h \
     app/common/pch.h \
     app/common/settings.h \
     app/model/camerareceiver.h \
+    app/model/compressor.h \
     app/model/georeceiver.h \
     app/model/imureceiver.h \
     app/model/model.h \
+    app/model/sender.h \
     app/model/sensordata.h \
     app/model/tcpsender.h \
     app/model/transmitter.h \
-    app/presenter/presenter.h \
-    app/view/view.h \
     app/model/udpsender.h \
-    app/model/sender.h \
-    app/model/wssender.h
+    app/model/wssender.h \
+    app/presenter/presenter.h \
+    app/view/view.h
 
 FORMS += \
     app/view/view.ui

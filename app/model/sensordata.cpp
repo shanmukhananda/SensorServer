@@ -98,17 +98,10 @@ QByteArray ImageData::serialize() const {
     // LOG_SCOPE;
     flatbuffers::FlatBufferBuilder fbb;
     auto bits_fb = fbb.CreateVector(bits);
-    auto pixel_format_fb = fbb.CreateString(pixel_format);
-    auto bplpl_fb = fbb.CreateVector(bytes_per_line_per_plane);
     messages::ImageBuilder builder(fbb);
     builder.add_bits(bits_fb);
-    builder.add_bytes_per_line_per_plane(bplpl_fb);
-    builder.add_height(height);
-    builder.add_mapped_bytes(mapped_bytes);
-    builder.add_pixel_format(pixel_format_fb);
-    builder.add_plane_count(plane_count);
     builder.add_type(messages::SensorType_Camera);
-    builder.add_width(width);
+    builder.add_timestamp(_timestamp);
     fbb.Finish(builder.Finish());
 
     auto data = reinterpret_cast<const char*>(fbb.GetBufferPointer());

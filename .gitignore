@@ -3,8 +3,8 @@
 *.vcxproj*
 *_generated.h
 .qmake*
-/.vs
-/.vscode
+.vs/
+.vscode/
 Generated*/
 __pycache__
 build*/

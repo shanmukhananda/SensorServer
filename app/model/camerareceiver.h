@@ -14,7 +14,7 @@ public:
     void run();
 
 signals:
-    void received_sensordata(std::shared_ptr<SensorData>);
+    void received_image(qint64, std::shared_ptr<QImage>);
 
 private slots:
     void update_camera(QCamera*);

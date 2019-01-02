@@ -7,6 +7,7 @@ class IMUReceiver;
 class GeoReceiver;
 class Settings;
 class Transmitter;
+class Compressor;
 
 class Model : public QObject {
     Q_OBJECT
@@ -44,8 +45,10 @@ private:
     std::unique_ptr<IMUReceiver> _imu_receiver;
     std::unique_ptr<GeoReceiver> _geo_receiver;
     std::unique_ptr<Transmitter> _transmitter;
+    std::unique_ptr<Compressor> _compressor;
     std::unique_ptr<QThread> _camera_receiver_thread;
     std::unique_ptr<QThread> _imu_receiver_thread;
     std::unique_ptr<QThread> _geo_receiver_thread;
     std::unique_ptr<QThread> _transmitter_thread;
+    std::unique_ptr<QThread> _compressor_thread;
 };

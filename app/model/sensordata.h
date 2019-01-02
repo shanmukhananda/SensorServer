@@ -67,11 +67,5 @@ public:
     QByteArray serialize() const override;
     sensor_type type() const override;
     std::uint64_t timestamp() const override;
-    std::int32_t width = 0;
-    std::int32_t height = 0;
-    std::string pixel_format;
-    std::int32_t plane_count = 0;
-    std::vector<std::int32_t> bytes_per_line_per_plane;
-    std::int32_t mapped_bytes = 0;
     std::vector<std::uint8_t> bits;
 };

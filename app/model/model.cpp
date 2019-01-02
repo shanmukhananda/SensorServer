@@ -2,6 +2,7 @@
 
 #include "app/common/settings.h"
 #include "app/model/camerareceiver.h"
+#include "app/model/compressor.h"
 #include "app/model/georeceiver.h"
 #include "app/model/imureceiver.h"
 #include "app/model/model.h"
@@ -19,14 +20,21 @@ void Model::init() {
     _camera_receiver = std::make_unique<CameraReceiver>();
     _imu_receiver = std::make_unique<IMUReceiver>();
     _geo_receiver = std::make_unique<GeoReceiver>();
+    _compressor = std::make_unique<Compressor>();
     // _camera_receiver_thread = std::make_unique<QThread>();
     _imu_receiver_thread = std::make_unique<QThread>();
     _geo_receiver_thread = std::make_unique<QThread>();
     _transmitter_thread = std::make_unique<QThread>();
+    _compressor_thread = std::make_unique<QThread>();
 
     auto connected = false;
+    connected = connect(_camera_receiver.get(),
+                        SIGNAL(received_image(qint64, std::shared_ptr<QImage>)),
+                        _compressor.get(),
+                        SLOT(received_image(qint64, std::shared_ptr<QImage>)));
+    Q_ASSERT(connected);
     connected =
-        connect(_camera_receiver.get(),
+        connect(_compressor.get(),
                 SIGNAL(received_sensordata(std::shared_ptr<SensorData>)),
                 _transmitter.get(),
                 SLOT(received_sensordata(std::shared_ptr<SensorData>)));
@@ -77,15 +85,18 @@ void Model::init() {
     Q_ASSERT(connected);
     Q_UNUSED(connected);
 
+    // QML Camera object is created by main thread, hence cannot move
     // _camera_receiver->moveToThread(_camera_receiver_thread.get());
     _imu_receiver->moveToThread(_imu_receiver_thread.get());
     _geo_receiver->moveToThread(_geo_receiver_thread.get());
     _transmitter->moveToThread(_transmitter_thread.get());
+    _compressor->moveToThread(_compressor_thread.get());
 
     // _camera_receiver_thread->start();
     _imu_receiver_thread->start();
     _geo_receiver_thread->start();
     _transmitter_thread->start();
+    _compressor_thread->start();
 }
 
 Model::~Model() {
@@ -99,6 +110,8 @@ Model::~Model() {
     _geo_receiver_thread->wait();
     _transmitter_thread->quit();
     _transmitter_thread->wait();
+    _compressor_thread->quit();
+    _compressor_thread->wait();
 }
 
 void Model::run() {
