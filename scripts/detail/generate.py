@@ -12,7 +12,7 @@ def get_project_dir():
 
 def main():
     project_dir = get_project_dir()
-    flatc_path = os.path.join(project_dir, "vendor", "installed",
+    flatc_path = os.path.join(project_dir, ".vendor", "installed",
                               "msvc-2017-x64-windows-release", "bin",
                               "flatc.exe")
     msg_fbs = os.path.join(project_dir, "app", "messages", "messages.fbs")

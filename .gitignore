@@ -11,6 +11,6 @@ build*/
 debug/
 installed*/
 release/
-vendor*/
+.vendor*/
 x64/
 x86/

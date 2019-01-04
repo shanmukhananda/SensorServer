@@ -30,7 +30,7 @@ def android_deploy(build_dir, install_dir):
     jdk_path = os.environ["JAVA_HOME"]
 
     deploy_cmd = f"{android_deployer} --input {deployment_settings} --output {install_dir} --android-platform {platform} --jdk {jdk_path} --gradle"
-    utils.execute(deploy_cmd.split())
+    utils.execute(deploy_cmd)
 
 
 def build_android_impl(buildtype):

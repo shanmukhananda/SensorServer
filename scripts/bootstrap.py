@@ -19,14 +19,14 @@ def get_project_dir():
 
 
 def create_vendor_dirs():
-    vendor_dir = os.path.join(os.getcwd(), "vendor")
+    vendor_dir = os.path.join(os.getcwd(), ".vendor")
     utils.mkdir_p(os.path.join(vendor_dir, "downloads"))
     utils.mkdir_p(os.path.join(vendor_dir, "installed"))
     utils.mkdir_p(os.path.join(vendor_dir, "buildtrees"))
 
 
 def download_packages():
-    dwld_dir = os.path.join("vendor", "downloads")
+    dwld_dir = os.path.join(".vendor", "downloads")
     with utils.pushd(dwld_dir):
         if not os.path.exists("flatbuffers"):
             cmd = "git clone --recursive https://github.com/google/flatbuffers.git"
@@ -35,12 +35,12 @@ def download_packages():
 
 def build_flatbuffer_android(buildtype):
     project_dir = os.getcwd()
-    flb_dir = os.path.join("vendor", "downloads", "flatbuffers")
+    flb_dir = os.path.join(".vendor", "downloads", "flatbuffers")
     flb_dir = os.path.join(project_dir, flb_dir)
     output_dir = f"armeabi-v7a-android-{buildtype}"
 
-    install_dir = os.path.join(project_dir, "vendor", "installed", output_dir)
-    build_dir = os.path.join(project_dir, "vendor", "buildtrees",
+    install_dir = os.path.join(project_dir, ".vendor", "installed", output_dir)
+    build_dir = os.path.join(project_dir, ".vendor", "buildtrees",
                              "flatbuffers", output_dir)
 
     utils.mkdir_p(install_dir)
@@ -76,12 +76,12 @@ def build_flatbuffer_android(buildtype):
 
 def build_flatbuffer_windows(buildtype):
     project_dir = os.getcwd()
-    flb_dir = os.path.join("vendor", "downloads", "flatbuffers")
+    flb_dir = os.path.join(".vendor", "downloads", "flatbuffers")
     flb_dir = os.path.join(project_dir, flb_dir)
     output_dir = f"msvc-2017-x64-windows-{buildtype}"
 
-    install_dir = os.path.join(project_dir, "vendor", "installed", output_dir)
-    build_dir = os.path.join(project_dir, "vendor", "buildtrees",
+    install_dir = os.path.join(project_dir, ".vendor", "installed", output_dir)
+    build_dir = os.path.join(project_dir, ".vendor", "buildtrees",
                              "flatbuffers", output_dir)
 
     utils.mkdir_p(install_dir)
