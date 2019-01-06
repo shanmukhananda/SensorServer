@@ -21,7 +21,7 @@ CONFIG += \
     mobility \
     precompile_header
 
-PRECOMPILED_HEADER = sensorserver/common/pch.h
+# PRECOMPILED_HEADER = sensorserver/common/pch.h
 
 SOURCES += \
     sensorserver/common/pch.cpp \
